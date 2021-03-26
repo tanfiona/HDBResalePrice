@@ -17,7 +17,7 @@ from src.steps.training import train, predict
 # settings
 parser = argparse.ArgumentParser()
 parser.add_argument('--run_type', type=str, default='full',
-                    help='process to run | options: full, train, predict, process')
+                    help='process to run | options: full, train, predict')
 parser.add_argument('--model_name', type=str, default='lgb', 
                     help='name of the model | options: lgb, xgb, rf, svm')
 parser.add_argument('--folds', type=int, default=5,
@@ -26,6 +26,8 @@ parser.add_argument('--epochs', type=int, default=10,
                     help='number of training epochs')
 parser.add_argument('--val_size', type=float, default=0.2,
                     help='proportion of data to use for validation')
+parser.add_argument('--tuning', type=str2bool, nargs='?',
+                    default=True, help='do gridsearch for hyperparam tuning or not')
 
 # general
 parser.add_argument('--data_folder', type=str, default='data',
@@ -38,16 +40,6 @@ parser.add_argument('--out_folder', type=str, default='outs',
                     help='folder name to save outputs into')
 parser.add_argument('--log_file', type=str,
                     default='training.log', help='filename to save log')
-parser.add_argument('--results_file', type=str,
-                    default='results.csv', help='filename to save results summary')
-parser.add_argument('--plot_save_name', type=str, default='results_plot.png',
-                    help='filename to save results plot in png format')
-parser.add_argument('--model_save_name', type=str, default='best_model_state.bin',
-                    help='filename to save best model in bin format')
-parser.add_argument('--train_save_name', type=str,
-                    help='filename to save training results in csv format (e.g. train_res.csv)')
-parser.add_argument('--val_save_name', type=str, default='val_res.csv',
-                    help='filename to save validation results in csv format (e.g. val_res.csv)')
 
 # backend
 parser.add_argument('--build_mode', type=str2bool, nargs='?',
@@ -71,20 +63,26 @@ make_dir(log_save_path)
 logger = get_logger(log_save_path, no_stdout=False, set_level=args.log_level)
 
 
-def full_run():
-    """
-    Full run, inclusive of feature engineering, appending frames, train/val/predict
-    """
-    train_df = preprocess(data_path=args.train_data_name, args=args)
-    train(train_df, args)
+def run_predict():
     test_df = preprocess(data_path=args.test_data_name, args=args)
     predict(test_df, args)
 
 
+def run_train():
+    train_df = preprocess(data_path=args.train_data_name, args=args)
+    train(train_df, args)
+
+
+def run_full():
+    run_train()
+    run_predict()
+
+
 def main(task):
     task_func = {
-        'full': full_run,
-        # 'run_one': run_one
+        'full': run_full,
+        'train': run_train,
+        'predict': run_predict
     }
     task_func[task]()
     
