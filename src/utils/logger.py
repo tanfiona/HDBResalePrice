@@ -5,6 +5,8 @@ import pandas as pd
 from itertools import product
 from .files import make_dir, save_json, open_json
 from datetime import datetime
+import warnings
+
 
 # get unique tmp file per run
 tmp_file_path = f'outs/tmp/{next(tempfile._get_candidate_names())}.json'
@@ -26,6 +28,7 @@ def get_log_level(set_level):
 
 
 def get_logger(logname, no_stdout=True, set_level='info', datefmt='%d/%m/%Y %H:%M:%S'):
+
     set_level = get_log_level(set_level)
 
     logging.basicConfig(
@@ -79,8 +82,7 @@ def get_average(df, filter_by):
     E.g. "Train_K3_Micro_F1" can be found via ["Train", "Micro_F1"]
     Does edits in place!
     """
-    keep_cols = [col for col in df.columns if all(
-        [fil in col for fil in filter_by])]
+    keep_cols = [col for col in df.columns if all([fil in col for fil in filter_by])]
     df['AVG_'+'_'.join(filter_by)] = df[keep_cols].mean(axis=1)
 
 
@@ -92,10 +94,8 @@ def save_results_to_csv(save_file_path, append=True, tmp_file_path=tmp_file_path
     res_summary = open_json(tmp_file_path, data_format=pd.DataFrame)
 
     # calculate average scores
-    combis = list(product(['Train', 'Val'], [
-                  'ARI_Macro', 'ARI_Micro', 'F1_Macro', 'F1_Micro']))
-    for combi in combis:
-        get_average(res_summary, combi)
+    combis = list(product(['Val', 'Test'], ['RMSE']))
+    for combi in combis: get_average(res_summary, combi)
 
     # calculate end time
     end = datetime.now()
