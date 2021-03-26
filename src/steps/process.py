@@ -73,10 +73,13 @@ def generate_main_fe(df, fe_path, save_fe=True):
     """
     Note that this section is manual, created by domain knowledge.
     """
-
     # resale timing
     df[['resale_year', 'resale_month']] = df['month'].str.split('-', 1, expand=True)
     df['flat_age'] = df['resale_year'].astype(int)-df['lease_commence_date'].astype(int)
+
+    # create alternative dep var
+    if 'resale_price' in df.columns:
+        df['resale_price_sqm'] = df['resale_price']/df['floor_area_sqm']
 
     # flat type
     df.loc[df['flat_type'] == "1-room", 'flat_type'] = "1 room"
@@ -85,10 +88,8 @@ def generate_main_fe(df, fe_path, save_fe=True):
     df.loc[df['flat_type'] == "4-room", 'flat_type'] = "4 room"
     df.loc[df['flat_type'] == "5-room", 'flat_type'] = "5 room"
 
-    # converting the block column to 1 if it has the number 4
-    # converting the block column to 0 if it does not have the number 4
-    df.loc[df['block'].str.contains('4'), 'block'] = 1
-    df.loc[df['block'].str.contains('4') == False, 'block'] = 0
+    # count of 4 occurences in block no
+    df['block'] = df['block'].apply(lambda x: x.count('4'))
 
     # convert to 01 to 06, 06 to 10, 10 to 15, 16 to 21, 21 to 25, 25 to 30,
     # 31 to 36, 36 to 40, 40 to 45, 46 to 51

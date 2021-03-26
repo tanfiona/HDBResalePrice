@@ -27,7 +27,9 @@ parser.add_argument('--epochs', type=int, default=10,
 parser.add_argument('--val_size', type=float, default=0.2,
                     help='proportion of data to use for validation')
 parser.add_argument('--tuning', type=str2bool, nargs='?',
-                    default=True, help='do gridsearch for hyperparam tuning or not')
+                    default=False, help='do gridsearch for hyperparam tuning or not')
+parser.add_argument('--target', type=str, default='resale_price', 
+                    help='outcome variable to predict | options: resale_price, resale_price_sqm')
 
 # general
 parser.add_argument('--data_folder', type=str, default='data',
@@ -40,6 +42,8 @@ parser.add_argument('--out_folder', type=str, default='outs',
                     help='folder name to save outputs into')
 parser.add_argument('--log_file', type=str,
                     default='training.log', help='filename to save log')
+parser.add_argument('--results_file', type=str,
+                    default='results.csv', help='filename to save results summary')
 
 # backend
 parser.add_argument('--build_mode', type=str2bool, nargs='?',

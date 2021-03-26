@@ -1,5 +1,4 @@
 {
-    "target": "resale_price",
     "aux_cols": [
         "commercial_CBD",
         "commercial_type_CR",
@@ -65,6 +64,7 @@
         "resale_month"
     ],
     "num_cols": [
+        "block",
         "flat_age",
         "resale_year",
         "floor_area_sqm"
@@ -76,8 +76,7 @@
         "max_depth": -1,
         "num_leaves": 50,
         "learning_rate": 0.1,
-        "n_estimators": 100,
-        "num_iteration": 1000,
+        "n_estimators": 1000,
         "min_split_gain": 50,
         "importance_type": "gain"
     },

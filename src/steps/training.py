@@ -16,7 +16,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 
-def format_data(df, encode_categorical=False):
+def format_data(df, args, encode_categorical=False):
     """
     This function formats the columns of the dataframe into the right format before
     the dataframe is parsed for training or testing.
@@ -25,9 +25,9 @@ def format_data(df, encode_categorical=False):
     """
 
     nums = params['num_cols']+params['aux_cols']
-    if params['target'] in df.columns:
+    if args.target in df.columns:
         train_mode = True
-        nums += [params['target']]
+        nums += [args.target]
     cates = params['cate_cols']
     cols = nums + cates
 
@@ -60,9 +60,9 @@ def format_data(df, encode_categorical=False):
     return df[cols]
 
 
-def x_y_split(df):
-    y = df[params['target']].copy()
-    X = df.drop(columns=params['target']).copy()
+def x_y_split(df, target):
+    y = df[target].copy()
+    X = df.drop(columns=target).copy()
     del(df)
     return X,y
 
@@ -70,11 +70,11 @@ def x_y_split(df):
 def train(df, args):
     logging.info(f'-- training')
     # format dataset
-    df = format_data(df, encode_categorical=False if args.model_name=='lgb' else True)
+    df = format_data(df, args, encode_categorical=False if args.model_name=='lgb' else True)
     # train-val split
     df, test_df = train_test_split(df, test_size=args.val_size, random_state=args.seed)
-    X, y = x_y_split(df)
-    X_test, y_test = x_y_split(test_df)
+    X, y = x_y_split(df, args.target)
+    X_test, y_test = x_y_split(test_df, args.target)
     # train folds
     train_folds(X, y, X_test, y_test, args)
 
@@ -86,22 +86,16 @@ def train_lgb(X_train, y_train, X_val, y_val, args):
 
     if args.tuning:
         search_params = {
-            'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1, 0.5, 1, 5, 10],
-            'n_estimators': [15, 30, 50, 80, 100, 120, 150, 200],
-            'min_split_gain': [0, 10, 50, 100, 150, 300, 500, 1000],
-            'num_leaves': [15, 30, 50, 80, 100, 120, 150, 200]
+            # 'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
+            # 'n_estimators': [15, 30, 50, 80, 100, 150, 200],
+            'min_split_gain': [0, 10, 100],
+            # 'num_leaves': [15, 30, 50, 80, 100, 150, 200]
+            # 'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1, 0.5, 1, 5, 10],
+            # 'n_estimators': [15, 30, 50, 80, 100, 120, 150, 200],
+            # 'min_split_gain': [0, 10, 50, 100, 150, 300, 500, 1000],
+            # 'num_leaves': [15, 30, 50, 80, 100, 120, 150, 200]
         }
-        model = GridSearchCV(
-            lgb, 
-            search_params,
-            scoring = 'neg_root_mean_squared_error',
-            cv = 5, 
-            n_jobs = -1, 
-            verbose=True
-        )
-        model.fit(X_train, y_train)
-        best_params = model.best_params_
-        extend_res_summary({'GridSearch': best_params})
+        best_params = param_tuning(X_train, y_train, lgb, search_params)
         lgb = lightgbm.LGBMRegressor(**best_params)
 
     lgb.fit(
@@ -113,6 +107,26 @@ def train_lgb(X_train, y_train, X_val, y_val, args):
         verbose=False
     )
     return lgb
+
+
+def param_tuning(X_train, y_train, lgb, search_params):
+    """
+    Not working for lgb yet
+    """
+    logging.info(f'Tuning parameters...')
+    model = GridSearchCV(
+        lgb,
+        search_params,
+        scoring = 'neg_root_mean_squared_error',
+        cv = 3,
+        n_jobs = -1,
+        verbose=True
+    )
+    model.fit(X_train, y_train)
+    best_params = model.best_params_
+    extend_res_summary({'GridSearch': best_params})
+    logging.info(f'Best parameters: {best_params}')
+    return best_params
 
 
 def plot_feat_imp(model, save_path):
@@ -158,6 +172,13 @@ def train_folds(X, y, X_test, y_test, args):
         # evaluate fold
         pred_train[val_idx] = model.predict(X_val)
         pred_test[fold] = model.predict(X_test)
+
+        if args.target=='resale_price_sqm':
+            y_val = [a*b for a,b in zip(y_val,X_val['floor_area_sqm'])]
+            pred_train[val_idx] = [a*b for a,b in zip(pred_train[val_idx],X_val['floor_area_sqm'])]
+            y_test = [a*b for a,b in zip(y_test,X_test['floor_area_sqm'])]
+            pred_test[fold] = [a*b for a,b in zip(pred_test[fold],X_test['floor_area_sqm'])]
+
         val_rmse = mean_squared_error(y_val, pred_train[val_idx], squared=False)
         test_rmse = mean_squared_error(y_test, pred_test[fold], squared=False)
         logging.info(f'TRAIN: n={len(trn_idx)} | VAL: n={len(val_idx)}, rmse={val_rmse} | TEST: n={len(y_test)}, rmse={test_rmse}')
@@ -213,7 +234,7 @@ def train_folds(X, y, X_test, y_test, args):
 def predict(df, args):
     logging.info(f'-- predicting')
     # format dataset
-    df = format_data(df, encode_categorical=False if args.model_name=='lgb' else True)
+    df = format_data(df, args, encode_categorical=False if args.model_name=='lgb' else True)
     # predict folds
     pred_new = defaultdict(list)
     for fold in range(args.folds):
@@ -222,6 +243,8 @@ def predict(df, args):
         # print([i for i in df.columns if i not in feats])
         # print(df.columns)
         pred_new[fold] = model.predict(df)
+        if args.target=='resale_price_sqm':
+            pred_new[fold] = [a*b for a,b in zip(pred_new[fold],df['floor_area_sqm'])]
     pred_new = pd.DataFrame(pred_new)
     pred_new['mean'] = pred_new.mean(axis=1)
     pred_new = pred_new.reset_index(drop=True)
