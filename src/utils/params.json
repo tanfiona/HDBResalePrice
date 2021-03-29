@@ -51,7 +51,11 @@
         "station_NE_",
         "station_CC_",
         "station_DT_",
-        "popcount_subzone"
+        "popcount_subzone",
+        "prisch_top50_",
+        "prisch_top50_<=1km",
+        "prisch_top50_1to2km",
+        "prisch_top50_2to4km"
     ],
     "cate_cols": [
         "flat_type",

@@ -41,7 +41,7 @@ def preprocess(data_path, args, load_if_avail=True, save_fe=True, save_all=True)
 
         # Load or generate auxiliary features
         aux_df = pd.DataFrame()
-        for aux in ['commercial', 'hawker', 'malls', 'station', 'demographics']:
+        for aux in ['commercial', 'hawker', 'malls', 'station', 'demographics', 'prisch']:
             aux_fe_path = f'{args.out_folder}/{t_name}_df_fe_{aux}.csv'
             if load_if_avail and os.path.exists(aux_fe_path):
                 logging.info(f'Opening fe auxiliary data for "{aux}"...')
@@ -147,6 +147,8 @@ def generate_aux_fe(df, aux_df, aux, aux_fe_path, save_fe=True):
         aux_df, dnew_columns = generate_aux_station(df, aux_df, aux)
     elif aux == 'malls':
         aux_df, dnew_columns = generate_aux_malls(df, aux_df, aux)
+    elif aux == 'prisch':
+        aux_df, dnew_columns = generate_aux_prisch(df, aux_df, aux)
     else:
         raise NotImplementedError
 
@@ -190,6 +192,29 @@ def generate_aux_commercial(df, aux_df, aux):
     df_x_aux, dnew_columns[aux+'_'+grp_col_name] = create_grouped_cols(
         dnew_columns, df_x_aux, aux_df, aux, grp_col_name, new_frame=False)
     
+    return df_x_aux, dnew_columns
+
+
+def generate_aux_prisch(df, aux_df, aux):
+    dnew_columns = defaultdict(dict)
+    # distance from each location
+    df_x_aux, dnew_columns[aux] = create_main_aux_dist_cols(
+        df.copy(), aux_df, aux)
+    # create top 50 variable
+    aux_df['top50'] = [
+        '' if i>0 else None 
+        for i in aux_df[
+            ['KiasuRank', '2020over', '2019over', '2018over','2017over']
+            ].sum(axis=1)]
+    # distance from nearest top school (grouped/min)
+    grp_col_name = 'top50'
+    df_x_aux, dnew_columns[aux+'_'+grp_col_name] = create_grouped_cols(
+        dnew_columns, df_x_aux, aux_df, aux, grp_col_name, new_frame=False)
+    # create dummies that permit phase applications for pri schools
+    df_x_aux['prisch_top50_<=1km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if x<=1 else 0)
+    df_x_aux['prisch_top50_1to2km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>1 and x<=2) else 0)
+    df_x_aux['prisch_top50_2to4km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>2 and x<=4) else 0)
+
     return df_x_aux, dnew_columns
 
 
