@@ -8,7 +8,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from collections import defaultdict
 from sklearn.preprocessing import OneHotEncoder
-from sklearn.model_selection import GridSearchCV, KFold, StratifiedKFold, train_test_split
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, KFold, StratifiedKFold, train_test_split
 from sklearn.metrics import mean_squared_error
 from src.utils.logger import extend_res_summary
 from src.utils.refs import params
@@ -69,6 +69,7 @@ def x_y_split(df, target):
 
 def train(df, args):
     logging.info(f'-- training')
+    extend_res_summary({'params': params})
     # format dataset
     df = format_data(df, args, encode_categorical=False if args.model_name=='lgb' else True)
     # train-val split
@@ -86,17 +87,19 @@ def train_lgb(X_train, y_train, X_val, y_val, args):
 
     if args.tuning:
         search_params = {
-            # 'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
-            # 'n_estimators': [15, 30, 50, 80, 100, 150, 200],
+            'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
+            'n_estimators': [15, 30, 50, 80, 100, 150, 200],
             'min_split_gain': [0, 10, 100],
-            # 'num_leaves': [15, 30, 50, 80, 100, 150, 200]
+            'num_leaves': [15, 30, 50, 80, 100, 150, 200]
             # 'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1, 0.5, 1, 5, 10],
             # 'n_estimators': [15, 30, 50, 80, 100, 120, 150, 200],
             # 'min_split_gain': [0, 10, 50, 100, 150, 300, 500, 1000],
             # 'num_leaves': [15, 30, 50, 80, 100, 120, 150, 200]
         }
-        best_params = param_tuning(X_train, y_train, lgb, search_params)
-        lgb = lightgbm.LGBMRegressor(**best_params)
+        best_params = param_tuning(X_train, y_train, lgb, search_params, args)
+        for k, v in best_params.items():
+            lgb_params[k] = v
+        lgb = lightgbm.LGBMRegressor(**lgb_params)
 
     lgb.fit(
         X=X_train, 
@@ -109,19 +112,29 @@ def train_lgb(X_train, y_train, X_val, y_val, args):
     return lgb
 
 
-def param_tuning(X_train, y_train, lgb, search_params):
+def param_tuning(X_train, y_train, lgb, search_params, args):
     """
     Not working for lgb yet
     """
     logging.info(f'Tuning parameters...')
-    model = GridSearchCV(
-        lgb,
-        search_params,
-        scoring = 'neg_root_mean_squared_error',
-        cv = 3,
-        n_jobs = -1,
+    # model = GridSearchCV(
+    #     lgb,
+    #     search_params,
+    #     scoring = 'neg_root_mean_squared_error',
+    #     cv = 3,
+    #     n_jobs = -1,
+    #     verbose=True
+    # )
+    model = RandomizedSearchCV(
+        estimator=lgb, 
+        param_distributions=search_params, 
+        n_iter=500,
+        scoring='neg_root_mean_squared_error',
+        cv=3, n_jobs = -1,
+        random_state=args.seed,
         verbose=True
-    )
+        )
+
     model.fit(X_train, y_train)
     best_params = model.best_params_
     extend_res_summary({'GridSearch': best_params})
