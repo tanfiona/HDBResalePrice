@@ -78,10 +78,10 @@
         "metric": "rmse",
         "boosting_type": "gbdt",
         "max_depth": -1,
-        "num_leaves": 50,
+        "num_leaves": 200,
         "learning_rate": 0.1,
-        "n_estimators": 1000,
-        "min_split_gain": 50,
+        "n_estimators": 500,
+        "min_split_gain": 0,
         "importance_type": "gain"
     },
     "xgb": {},
