@@ -25,9 +25,11 @@ def format_data(df, args, encode_categorical=False):
     """
 
     nums = params['num_cols']+params['aux_cols']
-    if args.target in df.columns:
+    if (args.target in df.columns) and args.run_type!='predict':
         train_mode = True
         nums += [args.target]
+    else:
+        train_mode = False
     cates = params['cate_cols']
     cols = nums + cates
 
@@ -129,7 +131,7 @@ def param_tuning(X_train, y_train, lgb, search_params, args):
         estimator=lgb, 
         param_distributions=search_params, 
         n_iter=500,
-        scoring='neg_root_mean_squared_error',
+        scoring='neg_root_mean_squared_erro',
         cv=3, n_jobs = -1,
         random_state=args.seed,
         verbose=True

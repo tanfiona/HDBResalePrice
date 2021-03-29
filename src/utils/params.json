@@ -51,11 +51,16 @@
         "station_NE_",
         "station_CC_",
         "station_DT_",
-        "popcount_subzone",
         "prisch_top50_",
         "prisch_top50_<=1km",
         "prisch_top50_1to2km",
-        "prisch_top50_2to4km"
+        "prisch_top50_2to4km",
+        "demographics_elderly",
+        "demographics_kids",
+        "demographics_middle",
+        "demographics_older",
+        "demographics_youngads",
+        "demographics_youth"
     ],
     "cate_cols": [
         "flat_type",
@@ -71,7 +76,9 @@
         "block",
         "flat_age",
         "resale_year",
-        "floor_area_sqm"
+        "floor_area_sqm",
+        "latitude",
+        "longitude"
     ],
     "lgb": {
         "objective": "regression",
@@ -82,7 +89,8 @@
         "learning_rate": 0.1,
         "n_estimators": 500,
         "min_split_gain": 0,
-        "importance_type": "gain"
+        "importance_type": "gain",
+        "early_stopping_rounds": 200
     },
     "xgb": {},
     "rf": {},

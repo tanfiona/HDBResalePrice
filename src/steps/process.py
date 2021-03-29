@@ -161,25 +161,26 @@ def generate_aux_fe(df, aux_df, aux, aux_fe_path, save_fe=True):
 
 
 def generate_aux_demographic(df, aux_df, aux):
-    
-    # only this column used
-    df = df[['subzone']].copy()
     dnew_columns = defaultdict(dict)
+    conv_dict = {
+        'kids': ['0-4', '5-9', '10-14'],                      # dependents
+        'youth': ['15-19', '20-24'],                          # students/ part-timers
+        'youngads': ['25-29', '30-34', '35-39'],              # young families
+        'middle': ['40-44', '45-49', '50-54'],                # older families
+        'older': ['55-59', '60-64'],                          # retirees
+        'elderly': ['65-69', '70-74','75-79', '80-84', '85+'] # older group
+    }
+    rev_dict = {}
+    for k,v in conv_dict.items():
+        for i in v:
+            rev_dict[i] = k
+    aux_df['age_grp'] = aux_df['age_group'].apply(lambda x: rev_dict[x])
+    aux_df = aux_df.groupby(['subzone', 'age_grp'])['count'].sum().unstack('age_grp').reset_index()
+    df_x_aux = pd.merge(df, aux_df, how='left', on='subzone').iloc[:,-6:]
+    df_x_aux.columns = [aux+'_'+i for i in df_x_aux.columns]
+    dnew_columns[aux] = list(df_x_aux.columns)
 
-    # population count across age in a particular subzone
-    dicts = {}
-    for area in np.unique(aux_df.subzone):
-        area_count = aux_df[aux_df['subzone'] == area]['count'].sum()
-        dicts[area] = area_count
-    df['popcount_subzone'] = df['subzone'].map(dicts)
-
-    # 490 was derived from central subzone in the population demographics
-    # dataset. However, there is no such subzone in the main dataset. After
-    # verifying it, central subzone is inferred to be 'city hall' in main
-    # data set (beach road area)
-    df.loc[df['subzone'] == "city hall", 'popcount_subzone'] = 490
-
-    return df[['popcount_subzone']], dnew_columns
+    return df_x_aux, dnew_columns
 
 
 def generate_aux_commercial(df, aux_df, aux):
