@@ -10,3 +10,6 @@ sudo /home/fiona/.conda/envs/env_01/bin/python3 main.py --tuning true
 
 # Resources
 [Kaggle Task Link](https://www.kaggle.com/c/cs5228-2020-semester-2-final-project/overview)
+Please download and save ALL csv files into the 'data' folder without renaming or moving the folders around. 
+They are excluded from this repository due to their large size. 
+Additional datasets used in the pipeline are also uploaded into this repository.

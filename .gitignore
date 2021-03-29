@@ -10,8 +10,6 @@
 *.gz
 *.bcf
 *.xml
-*.xlsx
-*.csv
 *.png
 *.jpeg
 *.jpg
@@ -21,6 +19,15 @@
 .vscode/
 .ipynb_checkpoints/
 
-data/
 outs/
 __pycache__/
+data/test.csv
+data/train.csv
+data/auxiliary-data/sg-commerical-centres.csv
+data/auxiliary-data/sg-gov-markets-hawker-centres.csv
+data/auxiliary-data/sg-population-demographics.csv
+data/auxiliary-data/sg-primary-schools.csv
+data/auxiliary-data/sg-secondary-schools.csv
+data/auxiliary-data/sg-shopping-malls.csv
+data/auxiliary-data/sg-train-stations.csv
+data/example-submission.csv

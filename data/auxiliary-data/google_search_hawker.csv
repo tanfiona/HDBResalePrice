@@ -1,0 +1,115 @@
+,name,rating,user_ratings_total,price_level,business_status,types,fuzzy_score
+0,East Coast Lagoon Food Village,4.3,7330,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",100
+1,Jurong Medical Centre,3.9,36,,OPERATIONAL,"['hospital', 'health', 'point_of_interest', 'establishment']",65
+2,Bee Choo Origin Herbal Hair Care (Bukit Merah),4.4,48,,OPERATIONAL,"['hair_care', 'point_of_interest', 'establishment']",52
+3,Block 67 HDB Kallang Bahru,3.5,2,,OPERATIONAL,"['point_of_interest', 'establishment']",42
+4,Block 20 HDB Holland,,,,OPERATIONAL,"['point_of_interest', 'establishment']",65
+5,Telok Blangah Hill Park,4.5,1873,,OPERATIONAL,"['park', 'tourist_attraction', 'point_of_interest', 'establishment']",40
+6,Block 91 HDB Toa Payoh,,,,OPERATIONAL,"['point_of_interest', 'establishment']",68
+7,Block 51 HDB Toa Payoh,4.7,3,,OPERATIONAL,"['point_of_interest', 'establishment']",68
+8,Block 218 HDB Toa Payoh,3,2,,OPERATIONAL,"['point_of_interest', 'establishment']",73
+9,Singapore Muslim Casket & Marble Contractor Pte Ltd,5,4,,OPERATIONAL,"['funeral_home', 'point_of_interest', 'establishment']",36
+10,Park Hotel Clarke Quay,4.2,1679,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",40
+11,SAM - New Upper Changi Road Blk 59,,,,OPERATIONAL,"['point_of_interest', 'store', 'establishment']",90
+12,Newton Food Centre,4.1,9796,,OPERATIONAL,"['food', 'point_of_interest', 'establishment']",100
+13,Hotel Clover 769 North Bridge Road,3.9,216,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",69
+14,SPC Pasir Panjang,4,61,,OPERATIONAL,"['gas_station', 'point_of_interest', 'establishment']",62
+15,Jian Ge Therapy Massage & Reflexology Centre,3,1,,OPERATIONAL,"['health', 'point_of_interest', 'establishment']",47
+16,Alda Dental Surgery - Tanglin Halt,5,10,,OPERATIONAL,"['health', 'point_of_interest', 'establishment']",59
+17,PAP Community Foundation Education Centre,,,,OPERATIONAL,"['point_of_interest', 'establishment']",46
+18,Block 648 HDB Ang Mo Kio,4.2,10,,OPERATIONAL,"['point_of_interest', 'establishment']",51
+19,Alda Dental Surgery - Tanglin Halt,5,10,,OPERATIONAL,"['health', 'point_of_interest', 'establishment']",40
+20,UOB ATM - Dunearn Road,5,1,,OPERATIONAL,"['atm', 'finance', 'point_of_interest', 'establishment']",49
+21,MacPherson Aljunied Crescent Zone 1 RC,5,2,,OPERATIONAL,"['point_of_interest', 'establishment']",44
+22,Bukit Timah,,,,,"['neighborhood', 'political']",76
+23,Block 77 HDB Circuit,3.8,31,,OPERATIONAL,"['store', 'point_of_interest', 'establishment']",72
+24,Central 24-HR Clinic (Clementi),1.4,126,,OPERATIONAL,"['doctor', 'health', 'point_of_interest', 'establishment']",52
+25,Chee Hwan Kog Childcare Centre,4,2,,OPERATIONAL,"['point_of_interest', 'establishment']",59
+26,Kumon Learning Centre - Yishun - Chong Pang,1,1,,OPERATIONAL,"['point_of_interest', 'establishment']",59
+27,Hotel Clover 5 HongKong Street,3.9,591,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",43
+28,Block 714 HDB Clementi West,4,1,,OPERATIONAL,"['point_of_interest', 'establishment']",49
+29,Clarke Quay Central,4.2,8895,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",39
+30,Jurong East Sports Centre,4.3,580,,OPERATIONAL,"['point_of_interest', 'establishment']",52
+31,Cosway Singapore - Boon Lay Place,2.8,4,,OPERATIONAL,"['grocery_or_supermarket', 'food', 'point_of_interest', 'store', 'establishment']",46
+32,SAM - Telok Blangah Drive Blk 77,3,1,,OPERATIONAL,"['point_of_interest', 'store', 'establishment']",63
+33,SAM - Telok Blangah Drive Blk 77,3,1,,OPERATIONAL,"['point_of_interest', 'store', 'establishment']",68
+34,M.Y World @ Telok Blangah Rise,4.8,5,,OPERATIONAL,"['school', 'point_of_interest', 'establishment']",56
+35,Koh Dental Surgery @ Jurong East - 南生牙医,4.3,27,,OPERATIONAL,"['dentist', 'health', 'point_of_interest', 'establishment']",48
+36,Sleeppost - Jurong West,5,2,,OPERATIONAL,"['furniture_store', 'home_goods_store', 'point_of_interest', 'store', 'establishment']",64
+37,OCBC ATM - 59 Marine Terrace Guardian,,,,OPERATIONAL,"['atm', 'finance', 'point_of_interest', 'establishment']",66
+38,Bukit Merah Zone F Rc Centre,,,,OPERATIONAL,"['point_of_interest', 'establishment']",54
+39,Pet Lovers Centre - Jalan Leban,4.3,36,,OPERATIONAL,"['pet_store', 'food', 'point_of_interest', 'store', 'establishment']",52
+40,Pancake King Serangoon Garden,3.3,14,,OPERATIONAL,"['bakery', 'food', 'point_of_interest', 'store', 'establishment']",77
+41,Block 2 HDB Eunos,,,,OPERATIONAL,"['point_of_interest', 'establishment']",53
+42,Chinatown Heritage Centre,4.4,2675,,CLOSED_TEMPORARILY,"['tourist_attraction', 'museum', 'point_of_interest', 'establishment']",53
+43,Block 203 HDB Marsiling,,,,OPERATIONAL,"['point_of_interest', 'establishment']",72
+44,Royal Medical Centre,4.4,16,,OPERATIONAL,"['hospital', 'health', 'point_of_interest', 'establishment']",54
+45,Telok Ayer Market,4.2,9233,,OPERATIONAL,"['tourist_attraction', 'point_of_interest', 'establishment']",47
+46,Block 153 HDB Mei Ling,,,,OPERATIONAL,"['point_of_interest', 'establishment']",47
+47,Bishan-Toa Payoh Town Council (Main Office),2.7,24,,OPERATIONAL,"['point_of_interest', 'establishment']",50
+48,Old Airport Road Food Centre & Shopping Mall,4.3,8627,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",73
+49,Block 77 HDB Circuit,3.8,31,,OPERATIONAL,"['store', 'point_of_interest', 'establishment']",74
+50,Holland Village Market & Food Centre,4,2131,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",94
+51,Block 645 HDB Ang Mo Kio,4.3,20,,OPERATIONAL,"['point_of_interest', 'establishment']",51
+52,Kim Seah Departmental Store Ang Mo Kio,,,,OPERATIONAL,"['department_store', 'point_of_interest', 'store', 'establishment']",51
+53,Block 706 HDB Bedok North,,,,OPERATIONAL,"['point_of_interest', 'establishment']",53
+54,Bedok Food Centre,4.2,2853,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",100
+55,Chomp Chomp Food Centre,4.2,3545,,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",100
+56,UOB ATM - Pasir Ris Central,4,3,,OPERATIONAL,"['atm', 'finance', 'point_of_interest', 'establishment']",64
+57,Parc Sovereign Hotel - Albert St,3.9,1445,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",53
+58,Block 90 HDB Redhill,5,3,,OPERATIONAL,"['point_of_interest', 'establishment']",56
+59,PAP Community Foundation Marine Parade Education Centre,3,1,,OPERATIONAL,"['point_of_interest', 'establishment']",55
+60,Tiong Bahru Bakery,4.4,2262,2,OPERATIONAL,"['cafe', 'meal_delivery', 'bakery', 'meal_takeaway', 'restaurant', 'food', 'point_of_interest', 'store', 'establishment']",83
+61,Toa Payoh Vista Market,3.9,294,1,OPERATIONAL,"['point_of_interest', 'establishment']",63
+62,Singapore Pools- Ang Mo Kio Blk 226A (N2A Branch),3.7,55,,OPERATIONAL,"['point_of_interest', 'store', 'establishment']",48
+63,Brickworks Dental Surgery,4,3,,OPERATIONAL,"['health', 'point_of_interest', 'establishment']",49
+64,Chinatown Complex,4.1,5185,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",55
+65,Anytime Fitness Taman Jurong,4.3,78,,OPERATIONAL,"['gym', 'health', 'point_of_interest', 'establishment']",60
+66,Block 87 HDB Bedok North Street 4,5,1,,OPERATIONAL,"['point_of_interest', 'establishment']",53
+67,Bukit Merah Zone F Rc Centre,,,,OPERATIONAL,"['point_of_interest', 'establishment']",51
+68,Block 223 HDB Toa Payoh,5,1,,OPERATIONAL,"['point_of_interest', 'establishment']",42
+69,Singapore Pools Beo Crescent Branch,3.2,19,,OPERATIONAL,"['point_of_interest', 'store', 'establishment']",59
+70,Hotel Clover 769 North Bridge Road,3.9,216,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",46
+71,PARKROYAL on Kitchener Road,4.1,5843,,OPERATIONAL,"['lodging', 'restaurant', 'food', 'point_of_interest', 'establishment']",42
+72,Aspire Hub @ Alexandra Village,4.5,2,,OPERATIONAL,"['point_of_interest', 'establishment']",55
+73,Kim San Leng Food Centre Bukit Panjang,3.8,1168,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",71
+74,PARKROYAL on Kitchener Road,4.1,5843,,OPERATIONAL,"['lodging', 'restaurant', 'food', 'point_of_interest', 'establishment']",42
+75,Oriental Hair Solutions Tampines 1,3.7,44,,OPERATIONAL,"['hair_care', 'point_of_interest', 'establishment']",51
+76,Block 87 HDB Bedok North Street 4,5,1,,OPERATIONAL,"['point_of_interest', 'establishment']",79
+77,Hougang Sheng Hong Student Care Centre,5,1,,OPERATIONAL,"['point_of_interest', 'establishment']",54
+78,Hougang Sheng Hong Student Care Centre,5,1,,OPERATIONAL,"['point_of_interest', 'establishment']",56
+79,Singapore Pools (Jalan Batu Branch),4.5,19,,OPERATIONAL,"['point_of_interest', 'store', 'establishment']",47
+80,Block 116 HDB Jln Bukit Merah,4.3,14,,OPERATIONAL,"['point_of_interest', 'establishment']",47
+81,Bendemeer Secondary School,4.1,33,,OPERATIONAL,"['secondary_school', 'school', 'point_of_interest', 'establishment']",42
+82,"Sony Centre, Clementi West",4,106,,OPERATIONAL,"['electronics_store', 'home_goods_store', 'point_of_interest', 'store', 'establishment']",47
+83,YWCA Child Development Centre (McNair),4.5,2,,OPERATIONAL,"['point_of_interest', 'establishment']",41
+84,Ramada Singapore by Wyndham Singapore at Zhongshan Park,4.3,2597,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",44
+85,Golden Mile Food Centre,4.2,4619,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",100
+86,Peperoni Pizzeria (Zion Road),4.1,316,2,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",53
+87,Central 24-HR Clinic (Clementi),1.4,126,,OPERATIONAL,"['doctor', 'health', 'point_of_interest', 'establishment']",51
+88,One Commonwealth,3.9,260,,OPERATIONAL,"['point_of_interest', 'establishment']",68
+89,Yishun Park Hawker Centre,4,4499,1,OPERATIONAL,"['tourist_attraction', 'restaurant', 'food', 'point_of_interest', 'establishment']",100
+90,SuperBowl Tampines,4.2,180,,OPERATIONAL,"['bowling_alley', 'point_of_interest', 'establishment']",71
+91,Jian Ge Therapy Massage & Reflexology Centre,3,1,,OPERATIONAL,"['health', 'point_of_interest', 'establishment']",42
+92,Copthorne King's Hotel Singapore on Havelock,4,2260,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",44
+93,Holland Village Market & Food Centre,4,2131,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",57
+94,Châteraisé Kampung Admiralty,4.2,36,,OPERATIONAL,"['bakery', 'food', 'point_of_interest', 'store', 'establishment']",77
+95,Village Hotel Changi,4.1,2485,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",61
+96,Block 714 HDB Clementi West,4,1,,OPERATIONAL,"['point_of_interest', 'establishment']",70
+97,Mount Pleasant Animal Medical Centre (Farrer Road),4.2,75,,OPERATIONAL,"['veterinary_care', 'point_of_interest', 'establishment']",53
+98,Old Airport Road Food Centre & Shopping Mall,4.3,8627,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",47
+99,Teban Gardens Food Centre,3.9,1555,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",57
+100,Block 536 HDB Bedok North,4.3,3,,OPERATIONAL,"['point_of_interest', 'establishment']",68
+101,Block 87 HDB Bedok North Street 4,5,1,,OPERATIONAL,"['point_of_interest', 'establishment']",71
+102,Sunlove Dementia Senior Care Centre Ang Mo Kio,2.3,3,,OPERATIONAL,"['physiotherapist', 'health', 'point_of_interest', 'establishment']",49
+103,Geylang,,,,,"['neighborhood', 'political']",52
+104,Block 40 HDB Bedok South,3.6,13,,OPERATIONAL,"['point_of_interest', 'establishment']",77
+105,Two Bedroom in Chinatown above MRT,,,,OPERATIONAL,"['lodging', 'point_of_interest', 'establishment']",45
+106,The Blue Ginger Tanjong Pagar,4.2,632,2,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",43
+107,My First Skool at Blk 329 Ang Mo Kio,,,,OPERATIONAL,"['school', 'point_of_interest', 'establishment']",61
+108,Cheers Ang Mo Kio Ave 10,,,,OPERATIONAL,"['convenience_store', 'food', 'point_of_interest', 'store', 'establishment']",64
+109,McDonald's Ang Mo Kio Ave 10,4.2,1138,1,OPERATIONAL,"['restaurant', 'food', 'point_of_interest', 'establishment']",48
+110,Block 645 HDB Ang Mo Kio,4.3,20,,OPERATIONAL,"['point_of_interest', 'establishment']",49
+111,Block 38 HDB Chai Chee,5,1,,OPERATIONAL,"['point_of_interest', 'establishment']",54
+112,Block 304 HDB Shunfu,,,,OPERATIONAL,"['point_of_interest', 'establishment']",59
+113,Block 44 HDB Sims Drive,4.1,19,,OPERATIONAL,"['point_of_interest', 'establishment']",41

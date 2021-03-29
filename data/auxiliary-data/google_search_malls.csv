@@ -1,0 +1,175 @@
+,name,rating,user_ratings_total,business_status,types,fuzzy_score
+0,100 AM,4.1,3162,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+1,313@somerset,4.3,13197,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+2,Aperia Mall,3.8,2353,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",71
+3,VIIO @ Balestier,4.1,41,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",55
+4,Bugis Cube,3.9,856,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+5,Bugis Junction,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+6,Bugis+,4.3,9670,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+7,Capitol Singapore,4.1,2880,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",65
+8,Cineleisure Orchard,4.1,4681,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",84
+9,Clarke Quay Central,4.2,8895,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+10,The Centrepoint,4,3969,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+11,City Square Mall,4.3,17400,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+12,City Gate,3.9,302,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",78
+13,CityLink,4.3,1298,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",76
+14,DUO Galleria,4.2,472,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",40
+15,Far East Plaza,3.9,4799,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+16,Funan Mall,4.4,3969,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",67
+17,Great World City,4.6,150,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+18,Hersing Hub,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",56
+19,Holland Road Shopping Centre,4,381,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",63
+20,ION Orchard,4.5,22673,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+21,Junction 8,4.2,9695,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+22,Knightsbridge,4.3,79,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+23,Stamford Court,3.9,113,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",56
+24,Orchard Towers,3.9,2372,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",64
+25,Lucky Plaza,4,13093,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+26,The Shoppes at Marina Bay Sands,4.5,15675,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",68
+27,The Shoppes at Marina Bay Sands,4.5,15675,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+28,HEYBO Marina Bay Link Mall,3.4,5,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",56
+29,Marina Bay Link Mall,4.3,2802,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+30,OUE LINK,4,23,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",56
+31,Marina Square,4.3,13901,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+32,Millenia Walk,4.2,4729,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+33,Mustafa Centre,4.3,27287,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",76
+34,Ngee Ann City,4.4,13574,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+35,Orchard Central,4.3,9527,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+36,Orchard Gateway,4.3,3499,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+37,Orchard Plaza,3.8,5,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+38,Midpoint Orchard,3.8,633,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+39,Orchard Shopping Center,4.1,52,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",96
+40,Palais Renaissance,4.1,322,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+41,People's Park Centre,3.9,1156,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+42,People's Park Complex,4,1136,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+43,Plaza Singapura,4.4,16951,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+44,Spacos,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",40
+45,WOMB RAFFLES CITY,5,5,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'clothing_store', 'store', 'establishment']",83
+46,Scotts Square,4.2,1436,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+47,A&A Evolution,5,1,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",50
+48,Shaw House,4.2,1794,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",65
+49,Sim Lim Square,3.9,10487,OPERATIONAL,"['shopping_mall', 'electronics_store', 'point_of_interest', 'store', 'establishment']",100
+50,Singapore Shopping Centre,3.7,255,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+51,South Beach Avenue,4.3,1091,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",67
+52,Square 2,4,2998,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+53,Suntec City,4.4,20721,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+54,Tanglin Mall,4.1,2325,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+55,Lancaster,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",43
+56,Tanjong Pagar Plaza,4,1488,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",67
+57,Hledan Centre,3,2,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",72
+58,The Fair,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",63
+59,Tiong Bahru Plaza,4.1,6594,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+60,The Poiz Centre,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",70
+61,Thomson Plaza,4,1877,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+62,United Square Shopping Mall,4,4035,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",65
+63,Velocity＠Novena Square,4.1,7587,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+64,Wheelock Place,4.1,2869,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+65,Wisma Atria,4.2,6408,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+66,Zhongshan Mall,4,2274,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+67,White Sands,4.1,5139,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+68,Downtown East,4.3,6831,OPERATIONAL,"['shopping_mall', 'tourist_attraction', 'point_of_interest', 'establishment']",100
+69,Century Square,4.2,4662,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+70,Tampines 1,4.2,6696,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+71,Tampines Mall,4.3,11404,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+72,Our Tampines Hub,4.5,7612,OPERATIONAL,"['shopping_mall', 'local_government_office', 'point_of_interest', 'establishment']",100
+73,Jewel Changi Airport,4.7,31315,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",82
+74,Changi City Point,4.3,8627,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+75,Djitsun Mall Bedok,4,667,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+76,Eastpoint Mall,4,5804,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+77,Bedok Mall,4.2,11429,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+78,Bedok Point,4,2239,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+79,Paya Lebar Square,4.2,2703,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+80,SingPost Centre,4.2,5222,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",72
+81,Paya Lebar Square,4.2,2703,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",82
+82,KINEX,3.9,4104,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+83,Katong Shopping Centre,3.6,1377,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+84,Roxy Square 1,3.9,390,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",92
+85,I12 Katong,3.9,3566,CLOSED_TEMPORARILY,"['shopping_mall', 'point_of_interest', 'establishment']",100
+86,Parkway Parade,4.3,6756,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+87,City Plaza,3.8,2084,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+88,Katong Square,4,733,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+89,Katong V,4,1290,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+90,Kallang Wave Mall,4.2,7393,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+91,Leisure Park Kallang,3.9,2714,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+92,East Village,4,291,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+93,Elias Mall,3.8,1749,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+94,Loyang Point,4.1,1140,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+95,The Flow @ East Coast,2.9,23,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",59
+96,Jewel Changi Airport,4.7,31316,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+97,888 Plaza,4.1,2215,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+98,Woodlands Mart,4.3,461,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",41
+99,AMK Hub,4.1,11272,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+100,Canberra Plaza,3.9,287,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+101,Causeway Point,4.2,9727,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+102,Broadway Plaza,3.6,237,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+103,Djitsun Mall,3.5,950,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+104,Jubilee Square,3.6,1401,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+105,Junction Nine,3.9,855,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",70
+106,Marsiling Mall,4.1,425,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+107,Northpoint City,4.3,11273,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+108,Sembawang Shopping Centre,4,4127,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+109,Sun Plaza,3.9,4358,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+110,Vista Point,4.2,497,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+111,Puteri,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",42
+112,Woodlands Mart,4.3,461,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+113,Woodlands North Plaza,4,934,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+114,Waterway Point,4.3,10930,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+115,Compass One,4.1,7506,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+116,Hougang Mall,4,5659,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+117,Heartland Mall,3.9,4766,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+118,NEX,4.3,16923,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+119,Greenwich V,3.8,1395,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+120,Hougang Centre,4.4,8,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",70
+121,Hougang Green Shopping Mall,3.8,514,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+122,myVillage,3.9,240,OPERATIONAL,"['shopping_mall', 'grocery_or_supermarket', 'cafe', 'restaurant', 'food', 'health', 'point_of_interest', 'store', 'establishment']",47
+123,Oasis Terraces,4.2,1520,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+124,Punggol Plaza,3.8,2658,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+125,Rivervale Mall,3.9,2464,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+126,Rivervale Plaza,3.9,2836,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+127,The Seletar Mall,4.1,5052,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+128,Buangkok Square Mall,4,588,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",86
+129,The Midtown,3.7,84,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+130,Upper Serangoon Shopping Centre,3.3,644,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+131,Beauty World Centre,3.7,2557,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+132,Beauty World Plaza,3.5,4,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+133,Bukit Panjang Plaza,4.1,4520,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+134,Bukit Timah Plaza,3.9,1046,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+135,Fajar Shopping Centre,3.8,1406,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+136,Greenridge Shopping Centre,4,290,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+137,Hillion mall,4.2,6316,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+138,HillV2,4,1887,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+139,Junction 10,3.6,1548,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+140,Lot One Shoppers' Mall,4,5867,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",50
+141,Lot One Shoppers' Mall,4,5867,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",50
+142,The Rail Mall,4.1,2114,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",82
+143,Sunshine Place,3.8,1321,OPERATIONAL,"['shopping_mall', 'laundry', 'food', 'point_of_interest', 'store', 'establishment']",100
+144,Teck Whye Shopping Centre,3.9,410,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+145,West Mall,4,5699,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+146,YewTee Point,4,1598,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",72
+147,Yew Tee Square,4.1,224,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+148,Keat Hong Furniture Trading,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",69
+149,KKH Mall,3.5,4,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",59
+150,VivoCity,4.5,40740,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+151,HarbourFront Centre,4.3,5638,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+152,Alexandra Retail Centre,4,3584,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+153,321 Clementi,3.9,1806,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+154,The Clementi Mall,4.1,7563,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+155,IMM,4.3,12649,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+156,JCube,4.1,6748,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+157,Jem,4.3,13447,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+158,santagrand,,,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",44
+159,Jurong Point,4.4,16925,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+160,Pioneer Mall,3.9,1863,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+161,The Star Vista,4.2,6716,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+162,Alexandra Retail Centre,4,3584,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",85
+163,Anchorpoint Shopping Centre,3.9,2635,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",58
+164,DAISO IMM,4.5,2143,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'store', 'establishment']",25
+165,The grandstand car mall,3.9,16,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",33
+166,Hong Kah Point,4,729,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",42
+167,Grantral Mall,3.5,189,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+168,Fairprice Hub,4.3,36,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+169,Gek Poh Shopping Centre,4,91,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+170,Rochester Mall,3.9,940,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+171,Taman Jurong Shopping Centre,4,1363,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+172,West Coast Plaza,3.9,2864,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
+173,Queensway Shopping Centre,4.2,2421,OPERATIONAL,"['shopping_mall', 'point_of_interest', 'establishment']",100
