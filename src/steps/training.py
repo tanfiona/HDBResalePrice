@@ -284,7 +284,7 @@ def predict(df, args):
     pred_new = defaultdict(list)
     for fold in range(args.folds):
         model = joblib.load(f'outs/{args.model_name}/fold{fold}.joblib')
-        feats = model._Booster.feature_name()
+        # feats = model._Booster.feature_name()
         # print([i for i in df.columns if i not in feats])
         # print(df.columns)
         pred_new[fold] = model.predict(df)
