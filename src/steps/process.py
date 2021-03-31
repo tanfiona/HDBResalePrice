@@ -180,6 +180,11 @@ def generate_aux_demographic(df, aux_df, aux):
     df_x_aux.columns = [aux+'_'+i for i in df_x_aux.columns]
     dnew_columns[aux] = list(df_x_aux.columns)
 
+    # 'city hall' and 'gali batu' does not have some information
+    # we assume this is because none of a certain age group lives in that vicinity
+    # thus we will fillna with 0
+    df_x_aux = df_x_aux.fillna(0)
+
     return df_x_aux, dnew_columns
 
 
