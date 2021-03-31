@@ -139,7 +139,7 @@ def train_knn(X_train, y_train, X_val, y_val, args):
     return model
 
 
-def param_tuning(X_train, y_train, lgb, search_params, args):
+def param_tuning(X_train, y_train, clf, search_params, args):
     """
     Not working for lgb yet
     """
@@ -153,10 +153,10 @@ def param_tuning(X_train, y_train, lgb, search_params, args):
     #     verbose=True
     # )
     model = RandomizedSearchCV(
-        estimator=lgb, 
+        estimator=clf, 
         param_distributions=search_params, 
         n_iter=500,
-        scoring='neg_root_mean_squared_erro',
+        scoring='neg_root_mean_squared_error',
         cv=3, n_jobs = -1,
         random_state=args.seed,
         verbose=True
