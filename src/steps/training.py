@@ -43,18 +43,24 @@ def format_data(df, args, encode_categorical=False):
             df[col] = df[col].astype(str)
         # usually most ml packages need dummy encoding e.g. via One-Hot
         ohe_path = 'outs/ohe_encoder.joblib'
-        if train_mode:
+        if train_mode or not os.path.exists(ohe_path):
             logging.info(f'Training OneHotEncoder...')
             ohe = OneHotEncoder()
             ohe.fit(df[cates])
             joblib.dump(ohe, ohe_path)
         else:
             logging.info(f'Loading OneHotEncoder...')
-            ohe = joblib.load(ohe_path) 
-        df_dummies = pd.DataFrame(ohe.transform(df[cates]))
-        df_dummies.columns = ohe.get_feature_names(cates)
+            ohe = joblib.load(ohe_path)
+        # generate dummies
+        df_dummies_columns = ohe.get_feature_names(cates) 
+        df_dummies = pd.DataFrame(
+            data=ohe.transform(df[cates]).todense(), 
+            columns=df_dummies_columns
+            )
+        # update main df
         df = df.drop(columns=cates)
         df = pd.concat([df, df_dummies], axis=1)
+        cols = nums + list(df_dummies_columns)
     else:
         # lgb can read categories directly
         for col in cates:
