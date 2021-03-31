@@ -8,6 +8,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from collections import defaultdict
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, KFold, StratifiedKFold, train_test_split
 from sklearn.metrics import mean_squared_error
 from src.utils.logger import extend_res_summary
@@ -89,9 +90,9 @@ def train(df, args):
 
 
 def train_lgb(X_train, y_train, X_val, y_val, args):
-    lgb_params = params['lgb']
-    lgb_params['random_state'] = args.seed
-    lgb = lightgbm.LGBMRegressor(**lgb_params)
+    model_params = params['lgb']
+    model_params['random_state'] = args.seed
+    model = lightgbm.LGBMRegressor(**model_params)
 
     if args.tuning:
         search_params = {
@@ -104,12 +105,12 @@ def train_lgb(X_train, y_train, X_val, y_val, args):
             # 'min_split_gain': [0, 10, 50, 100, 150, 300, 500, 1000],
             # 'num_leaves': [15, 30, 50, 80, 100, 120, 150, 200]
         }
-        best_params = param_tuning(X_train, y_train, lgb, search_params, args)
+        best_params = param_tuning(X_train, y_train, model, search_params, args)
         for k, v in best_params.items():
-            lgb_params[k] = v
-        lgb = lightgbm.LGBMRegressor(**lgb_params)
+            model_params[k] = v
+        model = lightgbm.LGBMRegressor(**model_params)
 
-    lgb.fit(
+    model.fit(
         X=X_train, 
         y=y_train, 
         eval_set=[(X_train, y_train), (X_val, y_val)],
@@ -117,7 +118,25 @@ def train_lgb(X_train, y_train, X_val, y_val, args):
         eval_metric='l2',
         verbose=False
     )
-    return lgb
+    return model
+
+
+def train_knn(X_train, y_train, X_val, y_val, args):
+    model_params = params['knn']
+    model = KNeighborsRegressor(**model_params)
+
+    if args.tuning:
+        search_params = {
+            'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
+            'n_neighbors': [5, 15, 45, 100, 200]
+        }
+        best_params = param_tuning(X_train, y_train, model, search_params, args)
+        for k, v in best_params.items():
+            model_params[k] = v
+        model = KNeighborsRegressor(**model_params)
+
+    model.fit(X=X_train, y=y_train)
+    return model
 
 
 def param_tuning(X_train, y_train, lgb, search_params, args):
@@ -187,6 +206,8 @@ def train_folds(X, y, X_test, y_test, args):
         # train round
         if args.model_name == 'lgb':
             model = train_lgb(X_train, y_train, X_val, y_val, args)
+        elif args.model_name == 'knn':
+            model = train_knn(X_train, y_train, X_val, y_val, args)
         else:
             raise NotImplementedError
         
@@ -209,14 +230,17 @@ def train_folds(X, y, X_test, y_test, args):
         joblib.dump(model, f'outs/{args.model_name}/fold{fold}.joblib')
 
         # save plots
-        plot_feat_imp(
-            model=model, 
-            save_path=f'outs/{args.model_name}/fold{fold}_featimp.png'
-            )
-        plot_rmse(            
-            model=model, 
-            save_path=f'outs/{args.model_name}/fold{fold}_iters.png'
-            )
+        if args.model_name in ['lgb', 'rf']:
+            plot_feat_imp(
+                model=model, 
+                save_path=f'outs/{args.model_name}/fold{fold}_featimp.png'
+                )
+        if args.model_name=='lgb':
+            plot_rmse(            
+                model=model, 
+                save_path=f'outs/{args.model_name}/fold{fold}_iters.png'
+                )
+        
         plot_scatters(
             actual=y_val, 
             pred=pred_train[val_idx], 
