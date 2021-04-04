@@ -14,6 +14,7 @@ from sklearn.metrics import mean_squared_error
 from src.utils.logger import extend_res_summary
 from src.utils.refs import params
 import warnings
+warnings.simplefilter("ignore", UserWarning)
 warnings.filterwarnings("ignore")
 
 
@@ -92,8 +93,7 @@ def train(df, args):
 def train_lgb(X_train, y_train, X_val, y_val, args):
     model_params = params['lgb']
     model_params['random_state'] = args.seed
-    model = lightgbm.LGBMRegressor(**model_params)
-
+    
     if args.tuning:
         search_params = {
             'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
@@ -105,11 +105,14 @@ def train_lgb(X_train, y_train, X_val, y_val, args):
             # 'min_split_gain': [0, 10, 50, 100, 150, 300, 500, 1000],
             # 'num_leaves': [15, 30, 50, 80, 100, 120, 150, 200]
         }
+        model = lightgbm.LGBMRegressor(**model_params)
         best_params = param_tuning(X_train, y_train, model, search_params, args)
         for k, v in best_params.items():
             model_params[k] = v
-        model = lightgbm.LGBMRegressor(**model_params)
-
+    
+    # esr requires val set, add param after tuning
+    model_params['early_stopping_rounds'] = 200
+    model = lightgbm.LGBMRegressor(**model_params)
     model.fit(
         X=X_train, 
         y=y_train, 

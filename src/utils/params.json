@@ -103,13 +103,13 @@
         "learning_rate": 0.1,
         "n_estimators": 500,
         "min_split_gain": 0,
-        "importance_type": "gain",
-        "early_stopping_rounds": 200
+        "importance_type": "gain"
     },
     "knn": {
-        "n_neighbors": 10,
+        "n_neighbors": 5,
         "metric": "minkowski",
-        "leaf_size": 30
+        "leaf_size": 5,
+        "p": 2
     },
     "xgb": {},
     "rf": {},
