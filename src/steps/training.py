@@ -127,7 +127,8 @@ def train_knn(X_train, y_train, X_val, y_val, args):
 
     if args.tuning:
         search_params = {
-            'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
+            'p': [1, 2],
+            'leaf_size': [5, 10, 15, 20, 30, 50, 100],
             'n_neighbors': [5, 15, 45, 100, 200]
         }
         best_params = param_tuning(X_train, y_train, model, search_params, args)
@@ -157,7 +158,7 @@ def param_tuning(X_train, y_train, clf, search_params, args):
         param_distributions=search_params, 
         n_iter=500,
         scoring='neg_root_mean_squared_error',
-        cv=3, n_jobs = -1,
+        cv=3, n_jobs = 12,
         random_state=args.seed,
         verbose=True
         )
@@ -266,13 +267,13 @@ def train_folds(X, y, X_test, y_test, args):
         actual=y, 
         pred=pred_train, 
         save_path=f'outs/{args.model_name}/val.png', 
-        ext=f' in Val Fold{fold}'
+        ext=f' in Val OVERALL'
         )
     plot_scatters(
         actual=y_test, 
         pred=pred_test['mean'], 
         save_path=f'outs/{args.model_name}/test.png', 
-        ext=f' in Test Fold{fold}'
+        ext=f' in Test OVERALL'
         )
 
 

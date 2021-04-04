@@ -1,7 +1,9 @@
 import os
+import re
 import pandas as pd
 import numpy as np
 import logging
+from time import strptime
 from collections import defaultdict
 from src.utils.files import save_json
 from src.utils.refs import aux_paths, params
@@ -41,7 +43,7 @@ def preprocess(data_path, args, load_if_avail=True, save_fe=True, save_all=True)
 
         # Load or generate auxiliary features
         aux_df = pd.DataFrame()
-        for aux in ['commercial', 'hawker', 'malls', 'station', 'demographics', 'prisch']:
+        for aux in aux_paths.keys():
             aux_fe_path = f'{args.out_folder}/{t_name}_df_fe_{aux}.csv'
             if load_if_avail and os.path.exists(aux_fe_path):
                 logging.info(f'Opening fe auxiliary data for "{aux}"...')
@@ -49,8 +51,10 @@ def preprocess(data_path, args, load_if_avail=True, save_fe=True, save_all=True)
             else:
                 logging.info(f'Generating fe auxiliary data for "{aux}"...')
                 # load all auxiliary data (no build mode here)
-                _aux_df = read_csv(os.path.join(args.data_folder, aux_paths[aux]))
-                _aux_df = generate_aux_fe(df, _aux_df, aux, aux_fe_path, save_fe=save_fe)
+                _aux_df = generate_aux_fe(
+                    df, aux, os.path.join(args.data_folder, aux_paths[aux]), 
+                    aux_fe_path, save_fe=save_fe
+                    )
             keep_columns = [i for i in _aux_df.columns if i in params['aux_cols']]
             _aux_df = _aux_df[keep_columns]
             # concat to frame
@@ -75,6 +79,7 @@ def generate_main_fe(df, fe_path, save_fe=True):
     """
     # resale timing
     df[['resale_year', 'resale_month']] = df['month'].str.split('-', 1, expand=True)
+    df['resale_quarter'] = df['resale_month'].apply(lambda m: (int(m)-1)//3 + 1)
     df['flat_age'] = df['resale_year'].astype(int)-df['lease_commence_date'].astype(int)
 
     # create alternative dep var
@@ -135,7 +140,18 @@ def generate_main_fe(df, fe_path, save_fe=True):
     return df
 
 
-def generate_aux_fe(df, aux_df, aux, aux_fe_path, save_fe=True):
+def generate_aux_fe(df, aux, aux_fe_in_path, aux_fe_out_path, save_fe=True):
+    # load aux frame(s)
+    if aux == 'macro':
+        aux_df = {}
+        for sheet in ['annual', 'quarterly', 'monthly']:
+            aux_df[sheet] = pd.read_excel(
+                aux_fe_in_path, 
+                sheet_name=sheet,
+                engine='openpyxl')
+    else:
+        aux_df = read_csv(aux_fe_in_path)
+
     # create features per aux type
     if aux == 'demographics':
         aux_df, dnew_columns = generate_aux_demographic(df, aux_df, aux)
@@ -149,15 +165,74 @@ def generate_aux_fe(df, aux_df, aux, aux_fe_path, save_fe=True):
         aux_df, dnew_columns = generate_aux_malls(df, aux_df, aux)
     elif aux == 'prisch':
         aux_df, dnew_columns = generate_aux_prisch(df, aux_df, aux)
+    elif aux == 'macro':
+        aux_df, dnew_columns = generate_aux_macro(df, aux_df, aux)
     else:
         raise NotImplementedError
 
     # save frame if opted
     if save_fe:
-        aux_df.to_csv(aux_fe_path, index=False)
-        save_json(dnew_columns, aux_fe_path.split('.csv')[0]+'_cols.json')
+        aux_df.to_csv(aux_fe_out_path, index=False)
+        save_json(dnew_columns, aux_fe_out_path.split('.csv')[0]+'_cols.json')
 
     return aux_df
+
+
+def generate_aux_macro(df, aux_df, aux):
+    dnew_columns = defaultdict(dict)
+
+    for col in ['resale_year', 'resale_month', 'resale_quarter']:
+        df[col] = df[col].astype(int)
+
+    # annual
+    sheet='annual'
+    _aux_df = aux_df[sheet].copy()
+    aux_df.pop(sheet)
+    orig_col_names = _aux_df.columns
+    new_col_names = [sheet+'_'+abbreviate_col_name(col) for col in orig_col_names]
+    _aux_df.columns = new_col_names
+    dnew_columns[sheet] = dict(zip(orig_col_names, new_col_names))
+    _aux_df = _aux_df.applymap(lambda x: np.nan if pd.isnull(x) else float(re.sub("[^\d\.]", "", str(x))))
+    df = pd.merge(df, _aux_df, how='left', left_on='resale_year', right_on=sheet+'_Variables')
+    df = df.drop(columns=sheet+'_Variables')
+
+    # quarterly
+    sheet='quarterly'
+    _aux_df = aux_df[sheet].copy()
+    aux_df.pop(sheet)
+    merge_on = ['resale_year', 'resale_quarter']
+    _aux_df[merge_on] = _aux_df['Variables'].str.split(' ', 1, expand=True)
+    _aux_df['resale_quarter'] = _aux_df['resale_quarter'].apply(lambda q: q[0])
+    _aux_df = _aux_df.drop(columns='Variables')
+    orig_col_names = _aux_df.columns
+    new_col_names = [sheet+'_'+abbreviate_col_name(col) if col not in merge_on else col for col in orig_col_names]
+    for col in merge_on:
+        _aux_df[col] = _aux_df[col].astype(int)
+        df[col] = df[col].astype(int)
+    _aux_df.columns = new_col_names
+    dnew_columns[sheet] = dict(zip(orig_col_names, new_col_names))
+    _aux_df = _aux_df.applymap(lambda x: float(re.sub("[^\d\.]", "", str(x))))
+    df = pd.merge(df, _aux_df, how='left', on=merge_on)
+    
+    # monthly
+    sheet='monthly'
+    _aux_df = aux_df[sheet].copy()
+    aux_df.pop(sheet)
+    merge_on = ['resale_year', 'resale_month']
+    _aux_df[merge_on] = _aux_df['Variables'].str.split(' ', 1, expand=True)
+    _aux_df['resale_month'] = _aux_df['resale_month'].apply(lambda m: strptime(m,'%b').tm_mon)
+    _aux_df = _aux_df.drop(columns='Variables')
+    orig_col_names = _aux_df.columns
+    new_col_names = [sheet+'_'+abbreviate_col_name(col) if col not in merge_on else col for col in orig_col_names]
+    for col in merge_on:
+        _aux_df[col] = _aux_df[col].astype(int)
+        df[col] = df[col].astype(int)
+    _aux_df.columns = new_col_names
+    dnew_columns[sheet] = dict(zip(orig_col_names, new_col_names))
+    _aux_df = _aux_df.applymap(lambda x: float(re.sub("[^\d\.]", "", str(x))))
+    df = pd.merge(df, _aux_df, how='left', on=merge_on)
+
+    return df, dnew_columns
 
 
 def generate_aux_demographic(df, aux_df, aux):
@@ -261,6 +336,13 @@ def get_distance_between_main_aux(df_row, aux_row, verbose=False):
     return distance
 
 
+def abbreviate_col_name(abrv_name):
+    if ' ' in abrv_name:
+        abrv_name = ''.join([s[0] if s[0].isupper() else (
+            s if s.isnumeric() else '')for s in abrv_name.split(' ')])
+        abrv_name = abrv_name.replace('_', '')
+    return abrv_name
+
 def create_main_aux_dist_cols(df, _aux_df, aux='', aux_col_name='name', df_lat_name='latitude', df_lng_name='longitude',
                               aux_lat_name='lat', aux_lng_name='lng', verbose=False, new_frame=True):
     """
@@ -273,10 +355,7 @@ def create_main_aux_dist_cols(df, _aux_df, aux='', aux_col_name='name', df_lat_n
     for aux_ix, aux_row in _aux_df.iterrows():
         # generate new column names
         abrv_name = aux_row[aux_col_name]
-        if ' ' in abrv_name:
-            abrv_name = ''.join([s[0] if s[0].isupper() else (
-                s if s.isnumeric() else '')for s in abrv_name.split(' ')])
-            abrv_name = abrv_name.replace('_', '')
+        abrv_name = abbreviate_col_name(abrv_name)
         col_name = aux + '_' + abrv_name
         # store column conversion
         if col_name in dcol_conversion.values():
