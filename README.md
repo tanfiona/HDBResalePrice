@@ -9,7 +9,7 @@ The goal of this project is to predict the resale price of a HDB flat based on i
 Please run the following script in command line with your applicable arguments.
 The default arguments is provided as the first value for string values.
 ```
-sudo /home/fiona/.conda/envs/env_01/bin/python3 -W ignore main.py <br>
+sudo /home/fiona/.conda/envs/env_01/bin/python3 -W ignore main.py
 	--model_name lgb/knn
 	--tuning false/true
 	--folds 5
@@ -17,7 +17,7 @@ sudo /home/fiona/.conda/envs/env_01/bin/python3 -W ignore main.py <br>
 ```
 
 # Resources
-[Kaggle Task Link](https://www.kaggle.com/c/cs5228-2020-semester-2-final-project/overview)
-Please download and save ALL csv files into the 'data' folder without renaming or moving the folders around. 
-They are excluded from this repository due to their large size. 
-Additional datasets used in the pipeline are also uploaded into this repository.
+[Kaggle Task Link](https://www.kaggle.com/c/cs5228-2020-semester-2-final-project/overview)<br>
+Please use the Kaggle link to download and save ALL csv files into the 'data' folder without renaming or moving the folders around. 
+These datasets are excluded from this repository due to their large sizes. 
+Additional datasets used in the pipeline are uploaded into this repository under the 'data' folder.
