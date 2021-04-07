@@ -99,11 +99,12 @@
         "metric": "rmse",
         "boosting_type": "gbdt",
         "max_depth": -1,
-        "num_leaves": 200,
-        "learning_rate": 0.1,
-        "n_estimators": 500,
-        "min_split_gain": 0,
-        "importance_type": "gain"
+        "num_leaves": 800,
+        "learning_rate": 0.01,
+        "n_estimators": 1000,
+        "min_split_gain": 10,
+        "importance_type": "gain",
+        "early_stopping_rounds": 200
     },
     "knn": {
         "n_neighbors": 5,
