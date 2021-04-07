@@ -40,9 +40,9 @@ def format_data(df, args, encode_categorical=False):
         df[col] = df[col].astype(float)
 
     # strings
+    for col in cates:
+        df[col] = df[col].apply(lambda x: str(x).lower())
     if encode_categorical:
-        for col in cates:
-            df[col] = df[col].astype(str)
         # usually most ml packages need dummy encoding e.g. via One-Hot
         ohe_path = 'outs/ohe_encoder.joblib'
         if train_mode or not os.path.exists(ohe_path):
