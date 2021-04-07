@@ -19,7 +19,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--run_type', type=str, default='full',
                     help='process to run | options: full, train, predict')
 parser.add_argument('--model_name', type=str, default='lgb', 
-                    help='name of the model | options: lgb, knn, xgb, rf, svm')
+                    help='name of the model | options: lgb, knn, adaboost, svm')
 parser.add_argument('--folds', type=int, default=5,
                     help='number of training folds')
 parser.add_argument('--epochs', type=int, default=10,

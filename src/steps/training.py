@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 from collections import defaultdict
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.neighbors import KNeighborsRegressor
+from sklearn.ensemble import AdaBoostRegressor
+from sklearn.svm import SVR
+from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, KFold, StratifiedKFold, train_test_split
 from sklearn.metrics import mean_squared_error
 from src.utils.logger import extend_res_summary
@@ -93,26 +96,28 @@ def train(df, args):
 def train_lgb(X_train, y_train, X_val, y_val, args):
     model_params = params['lgb']
     model_params['random_state'] = args.seed
+    model = lightgbm.LGBMRegressor(**model_params)
     
     if args.tuning:
         search_params = {
-            'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
-            'n_estimators': [15, 30, 50, 80, 100, 150, 200],
+            'learning_rate': [1e-2, 0.05, 0.1],
+            'n_estimators': [200, 300, 500, 800, 1000],
             'min_split_gain': [0, 10, 100],
-            'num_leaves': [15, 30, 50, 80, 100, 150, 200]
+            'num_leaves': [150, 200, 300, 500, 800]
+            # 'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1],
+            # 'n_estimators': [15, 30, 50, 100, 150, 200, 300, 500],
+            # 'min_split_gain': [0, 10, 100],
+            # 'num_leaves': [15, 30, 50, 100, 150, 200, 300, 500]
             # 'learning_rate': [1e-4, 1e-3, 1e-2, 0.05, 0.1, 0.5, 1, 5, 10],
             # 'n_estimators': [15, 30, 50, 80, 100, 120, 150, 200],
             # 'min_split_gain': [0, 10, 50, 100, 150, 300, 500, 1000],
             # 'num_leaves': [15, 30, 50, 80, 100, 120, 150, 200]
         }
-        model = lightgbm.LGBMRegressor(**model_params)
-        best_params = param_tuning(X_train, y_train, model, search_params, args)
+        best_params = param_tuning(X_train, y_train, model, search_params, args, X_val, y_val)
         for k, v in best_params.items():
             model_params[k] = v
+        model = lightgbm.LGBMRegressor(**model_params)
     
-    # esr requires val set, add param after tuning
-    model_params['early_stopping_rounds'] = 200
-    model = lightgbm.LGBMRegressor(**model_params)
     model.fit(
         X=X_train, 
         y=y_train, 
@@ -143,7 +148,54 @@ def train_knn(X_train, y_train, X_val, y_val, args):
     return model
 
 
-def param_tuning(X_train, y_train, clf, search_params, args):
+def train_adaboost(X_train, y_train, X_val, y_val, args):
+    base_params = params['decisiontree']
+    base_params['random_state'] = args.seed
+    model_params = params['adaboost']
+    model_params['random_state'] = args.seed
+    model = AdaBoostRegressor(base_estimator=DecisionTreeRegressor(**base_params), **model_params)
+
+    if args.tuning:
+        search_params = {
+            'learning_rate': [1e-3, 1e-2, 0.05, 0.1, 1],
+            'n_estimators': [15, 30, 50, 80, 100, 150, 200],
+            'loss': ['linear', 'square', 'exponential'],
+            'base_estimator__criterion' : ['mse', 'mae'],
+            'base_estimator__splitter' : ['best', 'random'],
+            'base_estimator__max_depth' : [3, 5, 10, 15, 20],
+        }
+        best_params = param_tuning(X_train, y_train, model, search_params, args)
+        for k, v in best_params.items():
+            if 'base_estimator' in k:
+                base_params[k] = v
+            model_params[k] = v
+        model = AdaBoostRegressor(base_estimator=DecisionTreeRegressor(**base_params), **model_params)
+
+    model.fit(X=X_train, y=y_train)
+    return model
+
+
+def train_svm(X_train, y_train, X_val, y_val, args):
+    model_params = params['svm']
+    model = SVR(**model_params)
+
+    if args.tuning:
+        search_params = {
+            'C': [0.05, 0.1, 1, 2, 5],
+            'kernel': ['rbf', 'linear'],
+            'gamma': ['scale', 'auto'],
+            'shrinking' : [True, False]
+        }
+        best_params = param_tuning(X_train, y_train, model, search_params, args)
+        for k, v in best_params.items():
+            model_params[k] = v
+        model = SVC(**model_params)
+
+    model.fit(X=X_train, y=y_train)
+    return model
+
+
+def param_tuning(X_train, y_train, clf, search_params, args, X_val=None, y_val=None):
     """
     Not working for lgb yet
     """
@@ -154,7 +206,7 @@ def param_tuning(X_train, y_train, clf, search_params, args):
     #     scoring = 'neg_root_mean_squared_error',
     #     cv = 3,
     #     n_jobs = -1,
-    #     verbose=True
+    #     verbose=False
     # )
     model = RandomizedSearchCV(
         estimator=clf, 
@@ -163,10 +215,13 @@ def param_tuning(X_train, y_train, clf, search_params, args):
         scoring='neg_root_mean_squared_error',
         cv=3, n_jobs = 12,
         random_state=args.seed,
-        verbose=True
+        verbose=False
         )
 
-    model.fit(X_train, y_train)
+    if args.model_name == 'lgb':
+        model.fit(X=X_train, y=y_train, eval_set = (X_val, y_val))
+    else:
+        model.fit(X_train, y_train)
     best_params = model.best_params_
     extend_res_summary({'GridSearch': best_params})
     logging.info(f'Best parameters: {best_params}')
@@ -195,6 +250,27 @@ def plot_scatters(actual, pred, save_path, ext=''):
     plt.close()
 
 
+def plot_binscatter(x, y, save_path, nbins = 10, xlabel='actual', ylabel='predicted', ext=''):
+    """
+    Adapted code from 
+    https://stackoverflow.com/questions/15556930/turn-scatter-data-into-binned-data-with-errors-bars-equal-to-standard-deviation
+    """
+    n, _ = np.histogram(x, bins=nbins)
+    sy, _ = np.histogram(x, bins=nbins, weights=y)
+    sy2, _ = np.histogram(x, bins=nbins, weights=y*y)
+    mean = sy / n
+    std = np.sqrt(sy2/n - mean*mean)
+
+    plt.plot(x, y, 'bo')
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title('Binscatter Plot of Predicted vs Actual'+ext)
+    plt.errorbar((_[1:] + _[:-1])/2, mean, yerr=std, fmt='r-')
+    plt.tight_layout()
+    plt.savefig(save_path)
+    plt.close()
+
+
 def train_folds(X, y, X_test, y_test, args):
 
     pred_train = np.zeros(len(X))
@@ -212,6 +288,10 @@ def train_folds(X, y, X_test, y_test, args):
             model = train_lgb(X_train, y_train, X_val, y_val, args)
         elif args.model_name == 'knn':
             model = train_knn(X_train, y_train, X_val, y_val, args)
+        elif args.model_name == 'adaboost':
+            model = train_adaboost(X_train, y_train, X_val, y_val, args)
+        elif args.model_name == 'svm':
+            model = train_svm(X_train, y_train, X_val, y_val, args)
         else:
             raise NotImplementedError
         
@@ -264,6 +344,10 @@ def train_folds(X, y, X_test, y_test, args):
     test_rmse = mean_squared_error(y_test, pred_test['mean'], squared=False)
     logging.info(f'OVERALL --> VAL: rmse={val_rmse} | TEST: rmse={test_rmse}')
     extend_res_summary({f'Val_RMSE': val_rmse, f'Test_RMSE': test_rmse})
+    
+    # save frames
+    pd.DataFrame({'index': y.index, 'pred': pred_train}).to_csv(f'outs/{args.model_name}/pred_train.csv', index=False)
+    pd.DataFrame({'index': y_test.index, 'pred': pred_test['mean']}).to_csv(f'outs/{args.model_name}/pred_test.csv', index=False)
 
     # save plots
     plot_scatters(
@@ -276,6 +360,20 @@ def train_folds(X, y, X_test, y_test, args):
         actual=y_test, 
         pred=pred_test['mean'], 
         save_path=f'outs/{args.model_name}/test.png', 
+        ext=f' in Test OVERALL'
+        )
+    plot_binscatter(
+        x=y, 
+        y=pred_train, 
+        nbins= 10000,
+        save_path=f'outs/{args.model_name}/val_binned.png', 
+        ext=f' in Val OVERALL'
+        )
+    plot_binscatter(
+        x=y_test, 
+        y=pred_test['mean'], 
+        nbins= 10000,
+        save_path=f'outs/{args.model_name}/test_binned.png', 
         ext=f' in Test OVERALL'
         )
 

@@ -112,7 +112,20 @@
         "leaf_size": 5,
         "p": 2
     },
-    "xgb": {},
-    "rf": {},
+    "adaboost": {
+        "learning_rate": 0.1,
+        "n_estimators": 200,
+        "loss": "linear"
+    },
+    "decisiontree": {
+        "max_depth": 5,
+        "splitter": "best",
+        "criterion": "mse"
+    },
+    "svm": {
+        "C": 1,
+        "kernel": "linear",
+        "gamma": "scale"
+    },
     "gridcv": {}
 }
