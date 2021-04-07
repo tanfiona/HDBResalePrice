@@ -43,7 +43,13 @@ def preprocess(data_path, args, load_if_avail=True, save_fe=True, save_all=True)
 
         # Load or generate auxiliary features
         aux_df = pd.DataFrame()
+        aux_cols = params['aux_cols']
+        if args.with_hdb_data:
+            aux_cols += params['hdb_cols']
         for aux in aux_paths.keys():
+            # build hdb aux data only if opted in args
+            if aux=='hdb_data' and not args.with_hdb_data:
+                next
             aux_fe_path = f'{args.out_folder}/{t_name}_df_fe_{aux}.csv'
             if load_if_avail and os.path.exists(aux_fe_path):
                 logging.info(f'Opening fe auxiliary data for "{aux}"...')
@@ -55,7 +61,7 @@ def preprocess(data_path, args, load_if_avail=True, save_fe=True, save_all=True)
                     df, aux, os.path.join(args.data_folder, aux_paths[aux]), 
                     aux_fe_path, save_fe=save_fe
                     )
-            keep_columns = [i for i in _aux_df.columns if i in params['aux_cols']]
+            keep_columns = [i for i in _aux_df.columns if i in aux_cols]
             _aux_df = _aux_df[keep_columns]
             # concat to frame
             aux_df = pd.concat([aux_df, _aux_df], axis=1)
@@ -73,6 +79,16 @@ def preprocess(data_path, args, load_if_avail=True, save_fe=True, save_all=True)
     return df
 
 
+def clean_flat_type(df):
+    df['flat_type'] = df['flat_type'].apply(lambda x: str(x).lower())
+    df.loc[df['flat_type'] == "1-room", 'flat_type'] = "1 room"
+    df.loc[df['flat_type'] == "2-room", 'flat_type'] = "2 room"
+    df.loc[df['flat_type'] == "3-room", 'flat_type'] = "3 room"
+    df.loc[df['flat_type'] == "4-room", 'flat_type'] = "4 room"
+    df.loc[df['flat_type'] == "5-room", 'flat_type'] = "5 room"
+    return df
+
+
 def generate_main_fe(df, fe_path, save_fe=True):
     """
     Note that this section is manual, created by domain knowledge.
@@ -87,11 +103,7 @@ def generate_main_fe(df, fe_path, save_fe=True):
         df['resale_price_sqm'] = df['resale_price']/df['floor_area_sqm']
 
     # flat type
-    df.loc[df['flat_type'] == "1-room", 'flat_type'] = "1 room"
-    df.loc[df['flat_type'] == "2-room", 'flat_type'] = "2 room"
-    df.loc[df['flat_type'] == "3-room", 'flat_type'] = "3 room"
-    df.loc[df['flat_type'] == "4-room", 'flat_type'] = "4 room"
-    df.loc[df['flat_type'] == "5-room", 'flat_type'] = "5 room"
+    df = clean_flat_type(df)
 
     # count of 4 occurences in block no
     df['block'] = df['block'].apply(lambda x: x.count('4'))
@@ -140,11 +152,76 @@ def generate_main_fe(df, fe_path, save_fe=True):
     return df
 
 
+def generate_aux_hdb(df, aux_df, aux, save_fe=True):
+    dnew_columns = defaultdict(dict)
+    # median_resale_price
+    sheet = 'median-resale-prices-for-regist'
+    hdb = aux_df[sheet].copy()
+    aux_df.pop(sheet)
+    hdb = hdb.applymap(lambda x: np.nan if x in ['-','', 'na', 'none'] else x)
+    hdb = clean_flat_type(hdb)
+    hdb = hdb.rename(columns={'quarter': 'resale_quarter', 'price': 'median_resale_price'})
+    hdb[['resale_year', 'resale_quarter']] = hdb['resale_quarter'].str.split('-', 1, expand=True)
+    hdb['resale_year'] = hdb['resale_year'].apply(lambda x: int(x))
+    hdb['resale_quarter'] = hdb['resale_quarter'].apply(lambda x: int(x[1]))
+    hdb['town'] = hdb['town'].apply(lambda x: str(x).lower())
+    df['town'] = df['town'].apply(lambda x: str(x).lower())
+    df_x_aux = pd.merge(df, hdb, how='left')[['median_resale_price']]
+
+    # no_of_resale_applications
+    sheet = 'number-of-resale-applications-r'
+    hdb = aux_df[sheet].copy()
+    aux_df.pop(sheet)
+    hdb = hdb.applymap(lambda x: np.nan if x in ['-','', 'na', 'none'] else x)
+    hdb = clean_flat_type(hdb)
+    hdb = hdb.rename(columns={'quarter': 'resale_quarter'})
+    hdb[['resale_year', 'resale_quarter']] = hdb['resale_quarter'].str.split('-', 1, expand=True)
+    hdb['resale_year'] = hdb['resale_year'].apply(lambda x: int(x))
+    hdb['resale_quarter'] = hdb['resale_quarter'].apply(lambda x: int(x[1]))
+    df_x_aux = pd.concat([df_x_aux, pd.merge(df, hdb, how='left')[['no_of_resale_applications']]], axis=1)
+
+    # resale_transactions
+    sheet = 'resale-transactions-by-flat-typ'
+    hdb = aux_df[sheet].copy()
+    aux_df.pop(sheet)
+    hdb = hdb.applymap(lambda x: np.nan if x in ['-','', 'na', 'none'] else x)
+    hdb = clean_flat_type(hdb)
+    hdb = hdb.rename(columns={'financial_year': 'resale_year'})
+    hdb['resale_year'] = hdb['resale_year'].apply(lambda x: int(x))
+    df_x_aux = pd.concat([df_x_aux, pd.merge(df, hdb, how='left')[['resale_transactions']]], axis=1)
+
+    # construction status
+    sheet = 'completion-status-of-hdb-reside'
+    hdb = aux_df[sheet].copy()
+    aux_df.pop(sheet)
+    hdb = hdb.applymap(lambda x: np.nan if x in ['-','', 'na', 'none'] else x)
+    hdb = hdb.rename(columns={'financial_year': 'resale_year', 'town_or_estate': 'town'})
+    hdb = hdb.groupby(['resale_year', 'town', 'hdb_or_dbss', 'status'])['no_of_units'].sum().unstack(['hdb_or_dbss', 'status']).reset_index()
+    hdb.columns = [i[0] if i[1]=='' else i[0]+'_'+i[1] for i in hdb.columns]
+    hdb['town'] = hdb['town'].apply(lambda x: str(x).lower())
+    df_x_aux = pd.concat([
+        df_x_aux, 
+        pd.merge(df, hdb, how='left')[['HDB_Completed', 'HDB_Under Construction', 'DBSS_Completed', 'DBSS_Under Construction']]], 
+        axis=1)
+
+    # new columns
+    dnew_columns[aux] = [
+        'median_resale_price', 'no_of_resale_applications', 'HDB_Completed',
+        'HDB_Under Construction', 'DBSS_Completed', 'DBSS_Under Construction',
+        'resale_transactions']
+    
+    return df_x_aux, dnew_columns
+
+
 def generate_aux_fe(df, aux, aux_fe_in_path, aux_fe_out_path, save_fe=True):
     # load aux frame(s)
-    if aux == 'macro':
+    if aux == 'macro' or aux == 'hdb_data':
+        if aux == 'macro':
+            sheets = ['annual', 'quarterly', 'monthly']
+        elif aux == 'hdb_data':
+            sheets = ['median-resale-prices-for-regist', 'number-of-resale-applications-r', 'resale-transactions-by-flat-typ', 'completion-status-of-hdb-reside']
         aux_df = {}
-        for sheet in ['annual', 'quarterly', 'monthly']:
+        for sheet in sheets:
             aux_df[sheet] = pd.read_excel(
                 aux_fe_in_path, 
                 sheet_name=sheet,
@@ -167,6 +244,8 @@ def generate_aux_fe(df, aux, aux_fe_in_path, aux_fe_out_path, save_fe=True):
         aux_df, dnew_columns = generate_aux_prisch(df, aux_df, aux)
     elif aux == 'macro':
         aux_df, dnew_columns = generate_aux_macro(df, aux_df, aux)
+    elif aux == 'hdb_data':
+        aux_df, dnew_columns = generate_aux_hdb(df, aux_df, aux)
     else:
         raise NotImplementedError
 

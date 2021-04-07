@@ -30,6 +30,10 @@ parser.add_argument('--tuning', type=str2bool, nargs='?',
                     default=False, help='do gridsearch for hyperparam tuning or not')
 parser.add_argument('--target', type=str, default='resale_price', 
                     help='outcome variable to predict | options: resale_price, resale_price_sqm')
+parser.add_argument('--remove_outliers', type=str2bool, default=False, 
+                    help='for ablation studies, remove outliers in training data')
+parser.add_argument('--with_hdb_data', type=str2bool, default=False, 
+                    help='for ablation studies, include (incomplete) hdb data from 2008 to 2019')
 
 # general
 parser.add_argument('--data_folder', type=str, default='data',

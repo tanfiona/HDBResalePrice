@@ -14,4 +14,5 @@ aux_paths = {
     'station': 'auxiliary-data/sg-train-stations.csv',
     'demographics': 'auxiliary-data/sg-population-demographics.csv',
     'macro': 'auxiliary-data/macro_factors.xlsx',
+    'hdb_data': 'auxiliary-data/macro_factors.xlsx',
 }

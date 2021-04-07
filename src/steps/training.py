@@ -30,6 +30,8 @@ def format_data(df, args, encode_categorical=False):
     """
 
     nums = params['num_cols']+params['aux_cols']
+    if args.with_hdb_data:
+        nums += params['hdb_cols']
     if (args.target in df.columns) and args.run_type!='predict':
         train_mode = True
         nums += [args.target]
@@ -41,6 +43,12 @@ def format_data(df, args, encode_categorical=False):
     # numericals
     for col in nums:
         df[col] = df[col].astype(float)
+
+    # subsample train data
+    if args.remove_outliers and train_mode:
+        df = remove_outliers(df)
+    # if args.with_hdb_data:
+    #     df = df[(df['resale_year']>=2008) & (df['resale_year']<=2019)]
 
     # strings
     for col in cates:
@@ -71,6 +79,26 @@ def format_data(df, args, encode_categorical=False):
         for col in cates:
             df[col] = df[col].astype('category')
     return df[cols]
+
+
+def remove_outliers(df):
+    """
+    Adapted code from
+    https://stackoverflow.com/questions/35827863/remove-outliers-in-pandas-dataframe-using-percentiles
+
+    Idea: To limit training sample to "nice" examples only that will not skew our results
+    """
+    # numerical
+    cols = ['floor_area_sqm']
+    Q1 = df[cols].quantile(0.25)
+    Q3 = df[cols].quantile(0.75)
+    IQR = Q3 - Q1
+    df = df[~((df[cols] < (Q1 - 1.5 * IQR)) |(df[cols] > (Q3 + 1.5 * IQR))).any(axis=1)]
+
+    # categorical
+    df = df[df['flat_type'].isin(['4 room', '5 room', '3 room', 'executive', '2 room'])]
+
+    return df
 
 
 def x_y_split(df, target):

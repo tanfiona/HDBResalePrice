@@ -75,6 +75,17 @@
         "monthly_SDR",
         "monthly_CPI"
     ],
+    "hdb_cols": [
+        "annual_RentalFlatApps",
+        "annual_ResaleFlatApps",
+        "median_resale_price",
+        "no_of_resale_applications",
+        "HDB_Completed",
+        "HDB_Under Construction",
+        "DBSS_Completed",
+        "DBSS_Under Construction",
+        "resale_transactions"
+    ],
     "cate_cols": [
         "flat_type",
         "street_name",
