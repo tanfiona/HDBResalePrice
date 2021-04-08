@@ -22,8 +22,6 @@ parser.add_argument('--model_name', type=str, default='lgb',
                     help='name of the model | options: lgb, knn, adaboost, svm')
 parser.add_argument('--folds', type=int, default=5,
                     help='number of training folds')
-parser.add_argument('--epochs', type=int, default=10,
-                    help='number of training epochs')
 parser.add_argument('--val_size', type=float, default=0.2,
                     help='proportion of data to use for validation')
 parser.add_argument('--tuning', type=str2bool, nargs='?',

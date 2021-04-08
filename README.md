@@ -13,7 +13,6 @@ sudo /home/fiona/.conda/envs/env_01/bin/python3 -W ignore main.py
 	--model_name lgb/knn
 	--tuning false/true
 	--folds 5
-	--epochs 5
 ```
 
 # Resources
