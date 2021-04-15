@@ -242,6 +242,8 @@ def generate_aux_fe(df, aux, aux_fe_in_path, aux_fe_out_path, save_fe=True):
         aux_df, dnew_columns = generate_aux_malls(df, aux_df, aux)
     elif aux == 'prisch':
         aux_df, dnew_columns = generate_aux_prisch(df, aux_df, aux)
+    elif aux == 'secsch':
+        aux_df, dnew_columns = generate_aux_secsch(df, aux_df, aux)
     elif aux == 'macro':
         aux_df, dnew_columns = generate_aux_macro(df, aux_df, aux)
     elif aux == 'hdb_data':
@@ -372,7 +374,7 @@ def generate_aux_prisch(df, aux_df, aux):
         dnew_columns, df_x_aux, aux_df, aux, grp_col_name, new_frame=False)
     # create dummies that permit phase applications for pri schools
     df_x_aux['prisch_top50_<=1km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if x<=1 else 0)
-    df_x_aux['prisch_top50_1to2km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>1 and x<=2) else 0)
+    df_x_aux['prisch_top501_1to2km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>1 and x<=2) else 0)
     df_x_aux['prisch_top50_2to4km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>2 and x<=4) else 0)
 
     return df_x_aux, dnew_columns
@@ -421,6 +423,7 @@ def abbreviate_col_name(abrv_name):
             s if s.isnumeric() else '')for s in abrv_name.split(' ')])
         abrv_name = abrv_name.replace('_', '')
     return abrv_name
+
 
 def create_main_aux_dist_cols(df, _aux_df, aux='', aux_col_name='name', df_lat_name='latitude', df_lng_name='longitude',
                               aux_lat_name='lat', aux_lng_name='lng', verbose=False, new_frame=True):
@@ -487,6 +490,19 @@ def create_grouped_cols(
 def label_rows_by_index(full_indexes, positive_indexes, positive_label, negative_label=None):
     """ create group tags """
     return [positive_label if i in positive_indexes else negative_label for i in full_indexes]
+
+
+def generate_aux_secsch(df, aux_df, aux):
+    dnew_columns = defaultdict(dict)
+    aux_df[''] = ''
+    grp_col_name = ''
+    # distance from each secsch
+    df_x_aux, dnew_columns[aux] = create_main_aux_dist_cols(
+        df.copy(), aux_df, aux)
+    # distance from nearest secsch
+    df_x_aux, dnew_columns[aux+'_'+grp_col_name] = create_grouped_cols(
+        dnew_columns, df_x_aux, aux_df, aux, grp_col_name, new_frame=False)
+    return df_x_aux, dnew_columns
 
 
 def generate_aux_hawker(df, aux_df, aux):

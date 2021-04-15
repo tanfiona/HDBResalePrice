@@ -6,10 +6,11 @@ import joblib
 import lightgbm
 import seaborn as sns
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
 from collections import defaultdict
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.neighbors import KNeighborsRegressor
-from sklearn.ensemble import AdaBoostRegressor
+from sklearn.ensemble import AdaBoostRegressor, RandomForestRegressor, GradientBoostingRegressor
 from sklearn.svm import SVR
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.model_selection import GridSearchCV, RandomizedSearchCV, KFold, StratifiedKFold, train_test_split
@@ -78,7 +79,11 @@ def format_data(df, args, encode_categorical=False):
         # lgb can read categories directly
         for col in cates:
             df[col] = df[col].astype('category')
-    return df[cols]
+    
+    df = df[cols].copy()
+    logging.info(f'Formatted data has {len(df)} rows, {len(df.columns)} cols')
+
+    return df
 
 
 def remove_outliers(df):
@@ -173,6 +178,52 @@ def train_knn(X_train, y_train, X_val, y_val, args):
         model = KNeighborsRegressor(**model_params)
 
     model.fit(X=X_train, y=y_train)
+    return model
+
+
+def train_gbr(X_train, y_train, X_val, y_val, args):
+    model_params = params['gbr']
+    model_params['random_state'] = args.seed
+    model = GradientBoostingRegressor(**model_params)
+
+    if args.tuning:
+        search_params = {
+            'learning_rate': [0.5, 0.1, 0.01],
+            'n_estimators': [50, 100, 200, 300, 500, 800],
+            'min_impurity_decrease': [0, 10, 100],
+            'min_samples_leaf': [1,3,5,10,15]
+        }
+        best_params = param_tuning(X_train, y_train, model, search_params, args)
+        for k, v in best_params.items():
+            model_params[k] = v
+        model = GradientBoostingRegressor(**model_params)
+
+    model.fit(X=X_train, y=y_train)
+    return model
+
+
+def train_rf(X_train, y_train, X_val, y_val, args):
+    model_params = params['rf']
+    model_params['random_state'] = args.seed
+    model = RandomForestRegressor(**model_params)
+
+    if args.tuning:
+        search_params = {
+            'n_estimators': [50, 100, 200, 300, 500, 800],
+            'min_impurity_decrease': [0, 10, 100],
+            'min_samples_leaf': [1,3,5,10,15]
+        }
+        best_params = param_tuning(X_train, y_train, model, search_params, args)
+        for k, v in best_params.items():
+            model_params[k] = v
+        model = RandomForestRegressor(**model_params)
+
+    model.fit(X=X_train, y=y_train)
+    return model
+
+
+def train_ols(X_train, y_train, X_val, y_val, args):
+    model = sm.OLS(y_train,X_train).fit(cov_type='HC1')
     return model
 
 
@@ -305,6 +356,9 @@ def train_folds(X, y, X_test, y_test, args):
     pred_test = defaultdict(list)
     kf = KFold(n_splits=args.folds, random_state=args.seed, shuffle=True)
 
+    if args.target=='resale_price_sqm':
+        y_test = [a*b for a,b in zip(y_test,X_test['floor_area_sqm'])]
+
     for fold, (trn_idx, val_idx) in enumerate(kf.split(X,y)):
         # get fold split
         logging.info(f'Conducting fold #{fold}...')
@@ -318,8 +372,14 @@ def train_folds(X, y, X_test, y_test, args):
             model = train_knn(X_train, y_train, X_val, y_val, args)
         elif args.model_name == 'adaboost':
             model = train_adaboost(X_train, y_train, X_val, y_val, args)
+        elif args.model_name == 'rf':
+            model = train_rf(X_train, y_train, X_val, y_val, args)
+        elif args.model_name == 'gbr':
+            model = train_gbr(X_train, y_train, X_val, y_val, args)
         elif args.model_name == 'svm':
             model = train_svm(X_train, y_train, X_val, y_val, args)
+        elif args.model_name == 'ols':
+            model = train_ols(X_train, y_train, X_val, y_val, args)
         else:
             raise NotImplementedError
         
@@ -330,7 +390,6 @@ def train_folds(X, y, X_test, y_test, args):
         if args.target=='resale_price_sqm':
             y_val = [a*b for a,b in zip(y_val,X_val['floor_area_sqm'])]
             pred_train[val_idx] = [a*b for a,b in zip(pred_train[val_idx],X_val['floor_area_sqm'])]
-            y_test = [a*b for a,b in zip(y_test,X_test['floor_area_sqm'])]
             pred_test[fold] = [a*b for a,b in zip(pred_test[fold],X_test['floor_area_sqm'])]
 
         val_rmse = mean_squared_error(y_val, pred_train[val_idx], squared=False)
@@ -342,7 +401,7 @@ def train_folds(X, y, X_test, y_test, args):
         joblib.dump(model, f'outs/{args.model_name}/fold{fold}.joblib')
 
         # save plots
-        if args.model_name in ['lgb', 'rf']:
+        if args.model_name=='lgb':
             plot_feat_imp(
                 model=model, 
                 save_path=f'outs/{args.model_name}/fold{fold}_featimp.png'
@@ -367,6 +426,8 @@ def train_folds(X, y, X_test, y_test, args):
             )
 
     # evaluate overall
+    if args.target=='resale_price_sqm':
+        y = [a*b for a,b in zip(y,X['floor_area_sqm'])]
     pred_test['mean'] = pd.DataFrame(pred_test).mean(axis=1)
     val_rmse = mean_squared_error(y, pred_train, squared=False)
     test_rmse = mean_squared_error(y_test, pred_test['mean'], squared=False)
