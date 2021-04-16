@@ -73,8 +73,7 @@
         "quarterly_HPI",
         "monthly_PLR",
         "monthly_SDR",
-        "monthly_CPI",
-        "secsch__"
+        "monthly_CPI"
     ],
     "hdb_cols": [
         "annual_RentalFlatApps",
