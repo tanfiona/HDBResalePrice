@@ -374,7 +374,7 @@ def generate_aux_prisch(df, aux_df, aux):
         dnew_columns, df_x_aux, aux_df, aux, grp_col_name, new_frame=False)
     # create dummies that permit phase applications for pri schools
     df_x_aux['prisch_top50_<=1km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if x<=1 else 0)
-    df_x_aux['prisch_top501_1to2km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>1 and x<=2) else 0)
+    df_x_aux['prisch_top50_1to2km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>1 and x<=2) else 0)
     df_x_aux['prisch_top50_2to4km'] = df_x_aux['prisch_top50_'].apply(lambda x: 1 if (x>2 and x<=4) else 0)
 
     return df_x_aux, dnew_columns
