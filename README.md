@@ -9,12 +9,16 @@ The goal of this project is to predict the resale price of a HDB flat based on i
 # Running the script
 Please run the following script in command line with your applicable arguments.
 The default arguments is provided as the first value for string values.
+Please ensure all datasets are downloaded beforehand (See the Resources bullet).
 ```
 python -W ignore main.py
 	--model_name lgb/knn/...
 	--tuning false/true
 	--folds 5
 ```
+
+# Notebooks
+Some visualisations and models (XGBoost) was ran separately in Jupyter Notebooks under the 'notebooks' folder. To run them, you would need to first run the script mentioned above to create a full train and test dataset with exhaustive features. The datasets will be created in an 'out' folder, and named as 'train_df_fe_all.csv' and 'test_df_fe_all.csv' respectively. 
 
 # Resources
 [Kaggle Task Link](https://www.kaggle.com/c/cs5228-2020-semester-2-final-project/overview)<br>
