@@ -17,6 +17,7 @@ python -W ignore main.py
 	--folds 5
 ```
 <br>
+
 Expected command line output for a first run where datasets will be generated into an 'out' folder:
 ```
 16/04/2021 12:43:39 - INFO - root -   -- starting process
@@ -26,7 +27,7 @@ Expected command line output for a first run where datasets will be generated in
 16/04/2021 12:44:32 - INFO - root -   Generating fe auxiliary data for "hawker"...
 ...
 ```
-<br>
+
 Once a dataset is created and not removed from the 'out' folder, future runs will read the generated csv file directly instead of recreating to save time. An example output is as follows:
 ```
 07/04/2021 13:41:59 - INFO - root -   -- starting process
