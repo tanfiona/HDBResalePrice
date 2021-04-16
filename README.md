@@ -9,7 +9,8 @@ The goal of this project is to predict the resale price of a HDB flat based on i
 # Running the script
 Please run the following script in command line with your applicable arguments.
 The default arguments is provided as the first value for string values.
-Please ensure all datasets are downloaded beforehand (See the Resources bullet).
+Please ensure all datasets are downloaded beforehand (See the Resources bullet). If you want to amend the default parameters and regressors, please edit the file 'src/utils/params.json' directly.
+For example, if you want to add the secondary school proximity variable, add to the "aux_cols" list the variable name "secsch__".
 ```
 python -W ignore main.py
 	--model_name lgb/knn/...
