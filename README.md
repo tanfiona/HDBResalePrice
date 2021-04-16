@@ -1,4 +1,5 @@
 # HDBResalePrice
+[Github Repository Link](https://github.com/pillowtann/HDBResalePrice)<br>
 Prediction of HDB resale prices on Kaggle for CS5228
 
 # Task Description
@@ -9,8 +10,8 @@ The goal of this project is to predict the resale price of a HDB flat based on i
 Please run the following script in command line with your applicable arguments.
 The default arguments is provided as the first value for string values.
 ```
-sudo /home/fiona/.conda/envs/env_01/bin/python3 -W ignore main.py
-	--model_name lgb/knn
+python -W ignore main.py
+	--model_name lgb/knn/...
 	--tuning false/true
 	--folds 5
 ```
